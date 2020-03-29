@@ -1,269 +1,249 @@
-<?php if(!$this->session->userdata["admin_data"]["admin_login_status"]) : ?>
-    <?php 
-        $url = base_url("admin");
-        redirect($url);
-    ?>
-<?php endif; ?>
-
-
-<style>
-    .large-text{
-        font-size: 60px;
-    }
-</style>
-<div class="row container center animated fadeIn">
-    <div class="col s12 m3">
-        <div class="card">
-            <div class="card-content">
-                <p class="large-text"><?php echo count($available);?></p>
-                <p class="card-text">Available Orders</p>
-            </div>
+    <div class="main-panel">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <a class="navbar-brand" href="javascript:;">Dashboard</a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end">
+            <form class="navbar-form">
+              <div class="input-group no-border">
+                <input type="text" value="" class="form-control" placeholder="Search...">
+                <button type="submit" class="btn btn-white btn-round btn-just-icon">
+                  <i class="material-icons">search</i>
+                  <div class="ripple-container"></div>
+                </button>
+              </div>
+            </form>
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="javascript:;">
+                  <i class="material-icons">dashboard</i>
+                  <p class="d-lg-none d-md-block">
+                    Stats
+                  </p>
+                </a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">notifications</i>
+                  <span class="notification">5</span>
+                  <p class="d-lg-none d-md-block">
+                    Some Actions
+                  </p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="#">Mike John responded to your email</a>
+                  <a class="dropdown-item" href="#">You have 5 new tasks</a>
+                  <a class="dropdown-item" href="#">You're now friend with Andrew</a>
+                  <a class="dropdown-item" href="#">Another Notification</a>
+                  <a class="dropdown-item" href="#">Another One</a>
+                </div>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">person</i>
+                  <p class="d-lg-none d-md-block">
+                    Account
+                  </p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
+                  <a class="dropdown-item" href="#">Profile</a>
+                  <a class="dropdown-item" href="<?php echo base_url("admin/settings"); ?>">Settings</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="<?php echo base_url("admin/logout"); ?>">Log out</a>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
-    </div>
-    <div class="col s12 m3">
-        <div class="card">
-            <div class="card-content">
-                <p class="large-text"><?php echo count($processing);?></p>
-                <p class="card-text">Processing Orders</p>
+      </nav>
+      <!-- End Navbar -->
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                <div class="card-header card-header-warning card-header-icon">
+                  <div class="card-icon">
+                    <i class="material-icons">content_copy</i>
+                  </div>
+                  <p class="card-category">Available</p>
+                  <h3 class="card-title"><?php echo count($available);?>
+                    <small>Order(s)</small>
+                  </h3>
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                    <i class="material-icons text-danger">warning</i>
+                    <a href="javascript:;">View Available</a>
+                  </div>
+                </div>
+              </div>
             </div>
-        </div>
-    </div>
-    <div class="col s12 m3">
-        <div class="card">
-            <div class="card-content">
-                <p class="large-text"><?php echo count($completed);?></p>
-                <p class="card-text">Waiting Approval</p>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                <div class="card-header card-header-success card-header-icon">
+                  <div class="card-icon">
+                    <i class="fa fa-spinner"></i>
+                  </div>
+                  <p class="card-category">Processing</p>
+                  <h3 class="card-title"><?php echo count($processing);?>
+                    <small>Order(s)</small>
+                </h3>
+                  
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                    <a href="javascript:;">View Processing</a>
+                  </div>
+                </div>
+              </div>
             </div>
-        </div>
-    </div>
-    <div class="col s12 m3">
-        <div class="card">
-            <div class="card-content">
-                <p class="large-text"><?php echo count($writers);?></p>
-                <p class="card-text">Writers Available</p>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                <div class="card-header card-header-danger card-header-icon">
+                  <div class="card-icon">
+                    <i class="material-icons">info_outline</i>
+                  </div>
+                  <p class="card-category">Revisions</p>
+                  <h3 class="card-title"><?php echo count($revisions);?>
+                    <small>Order(s)</small>
+                </h3>
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                    <a href="javascript:;">Check Revisions</a>
+                  </div>
+                </div>
+              </div>
             </div>
-        </div>
-    </div>
-
-    <div class="col s12 card">
-        <div class="card-content">
-            <h5 class="card-text">Site Statistics</h5>
-            <hr>
-            <table class="responsive-table">
-                <thead>
-                    <tr>
-                        <th>Item</th>
-                        <th>Number</th>
-                        <th>Total Price</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr>
-                        <td>
-                            Orders in Progress
-                        </td>
-
-                        <td>
-                            <?php echo count($processing);?> Orders
-                        </td>
-
-                        <td>
-                            <?php 
-                                $cost = 0;
-
-                                foreach($processing as $order){
-                                    $cost += $order["cost"];
-                                }
-
-                                echo "Ksh. " . number_format($cost);
-                            ?>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Orders in Revision
-                        </td>
-
-                        <td>
-                            <?php echo count($revisions);?> Orders
-                        </td>
-
-                        <td>
-                            <?php 
-                                $cost = 0;
-
-                                foreach($revisions as $order){
-                                    $cost += $order["cost"];
-                                }
-
-                                echo "Ksh. " . number_format($cost);
-                            ?>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Waiting Approval
-                        </td>
-
-                        <td>
-                            <?php echo count($completed);?> Orders
-                        </td>
-
-                        <td>
-                            <?php 
-                                $cost = 0;
-
-                                foreach($completed as $order){
-                                    $cost += $order["cost"];
-                                }
-
-                                echo "Ksh. " . number_format($cost);
-                            ?>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            Waiting Payments
-                        </td>
-
-                        <td>
-                            <?php echo count($finished);?> Orders
-                        </td>
-
-                        <td>
-                            <?php 
-                                $cost = 0;
-
-                                foreach($finished as $order){
-                                    $cost += $order["cost"];
-                                }
-
-                                echo "Ksh. " . number_format($cost);
-                            ?>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-
-
-<!-- Add Order Modal Structure -->
-<div id="add_order" class="modal">
-    <div class="modal-content">
-      <h4>Add New Order</h4>
-      <p class="center" id="order_message"></p>
-      <hr>
-            <div class="row">
-                <div class="col s12">
-                    <div class="input-field">
-                        <input id="title" type="text" name="title" class="validate">
-                        <label for="title">Enter Title</label>
-                    </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                <div class="card-header card-header-info card-header-icon">
+                  <div class="card-icon">
+                    <i class="fa fa-users"></i>
+                  </div>
+                  <p class="card-category">Writers</p>
+                  <h3 class="card-title"><?php echo count($writers);?> Active</h3>
                 </div>
-                <div class="col s12 m6 l6">
-                    <div class="input-field">
-                        <input id="subject" type="text" name="subject" class="validate">
-                        <label for="subject">Enter Subject</label>
-                    </div>
+                <div class="card-footer">
+                  <div class="stats">
+                    <a href="javascript:;">View Writers</a>
+                  </div>
                 </div>
-
-                <div class="col s12 m6 l6">
-                    <div class="input-field">
-                        <input id="sources" type="number" name="sources" class="validate">
-                        <label for="sources">Enter Sources</label>
-                    </div>
-                </div>
-                <div class="col s12 m6 l6">
-                    <div class="input-field">
-                        <select  id="spacing" name="spacing" >
-                            <option value="" disabled selected>Order Spacing</option>
-                            <option value="1">Single (550 Words / Page)</option>
-                            <option value="2">Double (275 Words / Page)</option>
-                            <option value="3">Double (300 Words / Page</option>
-                        </select>
-                        <label>Spacing</label>
-                    </div>
-                </div>
-
-                <div class="col s12 m6 l6 left">
-                    <div class="input-field">
-                        <select id="format" name="format">
-                                <option value="" disabled selected>Order Format</option>
-                                <option value="1">APA</option>
-                                <option value="2">MLA</option>
-                                <option value="3">Havard</option>
-                                <option value="4">Chicago / Turabia</option>
-                                <option value="5">Other</option>
-                            </select>
-                        <label>Format</label>
-                    </div>
-                </div>
-                <div class="col s12 m6 l6">
-                    <div class="input-field">
-                        <input id="date_deadline" type="text" name="date_deadline" class="datepicker validate">
-                        <label for="date_deadline">Enter Date</label>
-                    </div>
-                </div>
-
-                <div class="col s12 m6 l6">
-                    <div class="input-field">
-                        <input id="time_date" type="text" name="time_date" class="timepicker validate">
-                        <label for="time_date">Enter Time</label>
-                    </div>
-                </div>
-                <div class="col s12 m6 l6">
-                    <div class="input-field">
-                        <input id="price" type="number" name="price" class="validate">
-                        <label for="price">Enter Price</label>
-                    </div>
-                </div>
-
-                <div class="col s12 m6 l6">
-                    <div class="input-field">
-                        <input id="pages" type="number" name="pages" class="validate">
-                        <label for="pages">Enter Pages</label>
-                    </div>
-                </div>
-                <div class="col s12 m6 l6">
-                    <div class="input-field">
-                        <select  id="level" name="level" >
-                            <option value="" disabled selected>Order Level</option>
-                            <option value="1">High School</option>
-                            <option value="2">College</option>
-                            <option value="3">University</option>
-                            <option value="3">Masters</option>
-                            <option value="3">P.hD</option>
-                        </select>
-                        <label>Spacing</label>
-                    </div>
-                </div>
-                <div class="col s12 m6 l6">
-                    <div class="file-field input-field">
-                        <div class="btn">
-                            <span>Order Files</span>
-                            <input type="file" multiple>
-                        </div>
-                        <div class="file-path-wrapper">
-                            <input class="file-path validate" type="text" placeholder="Upload one or more files">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col s12">
-                    <div class="input-field">
-                        <textarea id="instructions" class="materialize-textarea"></textarea>
-                        <label for="instructions">Your Instructions</label>
-                    </div>
-                </div>
+              </div>
             </div>
+          </div>
+
+
+          <!-- <div class="row">
+            <div class="col-md-4">
+              <div class="card card-chart">
+                <div class="card-header card-header-success">
+                  <div class="ct-chart" id="dailySalesChart"></div>
+                </div>
+                <div class="card-body">
+                  <h4 class="card-title">Daily Workload</h4>
+                  <p class="card-category">
+                    <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today sales.</p>
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                    <i class="material-icons">access_time</i> updated 4 minutes ago
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-chart">
+                <div class="card-header card-header-warning">
+                  <div class="ct-chart" id="websiteViewsChart"></div>
+                </div>
+                <div class="card-body">
+                  <h4 class="card-title">Email Subscriptions</h4>
+                  <p class="card-category">Last Campaign Performance</p>
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                    <i class="material-icons">access_time</i> campaign sent 2 days ago
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-chart">
+                <div class="card-header card-header-danger">
+                  <div class="ct-chart" id="completedTasksChart"></div>
+                </div>
+                <div class="card-body">
+                  <h4 class="card-title">Completed Tasks</h4>
+                  <p class="card-category">Last Campaign Performance</p>
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                    <i class="material-icons">access_time</i> campaign sent 2 days ago
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> -->
+          <div class="row">
+            
+            <div class="col-lg-12 col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">Employees Stats</h4>
+                  <p class="card-category">Top Writers</p>
+                </div>
+                <div class="card-body table-responsive">
+                  <table class="table table-hover">
+                    <thead class="text-warning">
+                      <th>ID</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Status</th>
+                      <th>Options</th>
+                    </thead>
+                    <tbody>
+                      <?php foreach($writers as $writer) : ?>
+                            <tr>
+                                <td>
+                                    <?php echo $writer["id"]?>
+                                </td>
+
+
+                                <td>
+                                    <?php echo $writer["name"]?>
+                                </td>
+
+                                <td>
+                                    <?php echo $writer["email"]?>
+                                </td>
+
+                                <td>
+                                    <?php echo ($writer["status"] ? "<span class='badge badge-green green-text'>Verified</span>" : "<span class='badge badge-red red-text'>Unverified</span>"); ?>
+                                </td>
+
+                                <td>
+                                    <input type="hidden" id="writerId" value="<?php echo $writer['id']?>"/>
+                                    <a href="<?php echo base_url("admin/writers/" . $writer['id']) ?>" class="btn btn-md green white-text">View</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
     </div>
-    <div class="modal-footer">
-      <a href="#!" class="waves-effect waves-green blue white-text btn-flat" id="btn_add_order">Add Order</a>
-    </div>
-</div>

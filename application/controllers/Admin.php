@@ -87,6 +87,7 @@ class Admin extends CI_Controller {
 			$data['processing'] = $this->Admin_Model->get_orders("processing");
 			$data['revisions'] = $this->Admin_Model->get_orders("revision");
 			$data['completed'] = $this->Admin_Model->get_orders("completed");
+			$data['page'] = "orders";
 
 			$this->load->view('templetes/admin/header', $data);
 			$this->load->view('templetes/admin/nav', $data);

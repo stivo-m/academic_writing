@@ -6,49 +6,137 @@
 <?php endif; ?>
 
 
-<div class="row container-fluid" style="padding: 5px 10px !important">
-    <div class="col s12 m12 l7">
-        <div class="card animated fadeIn">
-            <div class="card-content">
-                <table class="responsive-table">
-                    <span class="badge right blue white-text">Status: <?php echo ucfirst($order['status']) ?></span>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>LEVEL</th>
-                            <th>DEADLINE</th>
-                            <th>SPACING</th>
-                            <th>PAGES</th>
-                            <th>SOURCES</th>
-                            <th>FORMAT</th>
-                        </tr>
-                    </thead>
+<div class="main-panel">
+     <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <a class="navbar-brand" href="javascript:;">Order <?=$order["id"]?></a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end">
+            <form class="navbar-form">
+              <div class="input-group no-border">
+                <input type="text" value="" class="form-control" placeholder="Search...">
+                <button type="submit" class="btn btn-white btn-round btn-just-icon">
+                  <i class="material-icons">search</i>
+                  <div class="ripple-container"></div>
+                </button>
+              </div>
+            </form>
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="javascript:;">
+                  <i class="material-icons">dashboard</i>
+                  <p class="d-lg-none d-md-block">
+                    Stats
+                  </p>
+                </a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">notifications</i>
+                  <span class="notification">5</span>
+                  <p class="d-lg-none d-md-block">
+                    Some Actions
+                  </p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="#">Mike John responded to your email</a>
+                  <a class="dropdown-item" href="#">You have 5 new tasks</a>
+                  <a class="dropdown-item" href="#">You're now friend with Andrew</a>
+                  <a class="dropdown-item" href="#">Another Notification</a>
+                  <a class="dropdown-item" href="#">Another One</a>
+                </div>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">person</i>
+                  <p class="d-lg-none d-md-block">
+                    Account
+                  </p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
+                  <a class="dropdown-item" href="#">Profile</a>
+                  <a class="dropdown-item" href="<?php echo base_url("admin/settings"); ?>">Settings</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="<?php echo base_url("admin/logout"); ?>">Log out</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </nav>  
 
-                    <tbody>
-                        <tr>
-                            <td>#<?php echo $order['id'] ?></td>
-                            <td><?php echo $order['level'] ?></td>
-                            <td><?php echo $order['date_deadline'] . " : " . $order['time_deadline'] ?></td>
-                            <td><?php echo $order['spacing'] ?></td>
-                            <td><?php echo $order['pages'] ?> Pages <small>(<?php echo $order['pages'] * 275 ?> Words Per Page)</small></td>
-                            <td><?php echo $order['sources'] ?> Sources</td>
-                            <td><?php echo $order['format'] ?></td>
-                        </tr>
-                    </tbody>
-                </table>
 
-                <table>
-                    <tr>
-                        <td colspan="7"><b>Title: </b><?php echo $order['title'] ?></td>
-                    </tr>
-                    <tr>
-                        <td colspan="7"><b>Instructions: </b><br><?php echo $order['instructions'] ?></td>
-                    </tr>
+    <!-- End of Nav -->
+<div class="content">
 
-                    <tr>
-                    <td colspan="7"><b>Files: <?php echo count($files)?></b>
-                            <br> 
-                            <?php if(!empty($files)) : ?>
+<div class="container-fluid">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">Order <?=$order["id"]?></h4>
+                  <p class="card-category">Order Status: <?php echo ucfirst($order["status"])?></p>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <b>Title: </b> <?php echo $order['title'] ?>
+                        </div>
+                         <div class="col-md-6">
+                            <b>Pages: </b> <?php echo $order['pages'] ?> pages
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <b>Sources: </b> <?php echo $order['sources'] ?> sources
+                        </div>
+                         <div class="col-md-6">
+                            <b>Format: </b> <?php echo $order['format'] ?>
+                        </div>
+
+                        <div class="col-md-6">
+                            <b>Level: </b> <?php echo $order['level'] ?>
+                        </div>
+                        <div class="col-md-6">
+                            <b>Spacing: </b> <?php echo $order['spacing'] ?>
+                        </div>
+
+                        <div class="col-md-6">
+                            <b>Deadline: </b> <?php echo $order['date_deadline'] . " : " . $order['time_deadline'] ?>
+                        </div>
+                        <div class="col-md-6">
+                            <b>Cost: </b> Ksh. <?php echo $order['cost'] ?>
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h5 class="card-title">
+                                <b>Order Instructions</b>
+                            </h5>
+                        </div>
+
+                        <div class="col-md-12">
+                            <br>
+                            <p class="card-content">
+                                <?php echo $order['instructions'] ?>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p class="card-content">
+                                <b>Order Files</b>
+                            </p>
+                             <?php if(!empty($files)) : ?>
                             <ul class="collection" style="max-height: 300px; overflow-y: scroll">
                                 <?php foreach($files as $file) : ?>
                                     <li class="collection-item">
@@ -79,125 +167,99 @@
                                 </div>
                             <?php endif; ?>
 
-                            <div class="blue white-text badge center" id="filesMsg" style="width: 100%">
-                                    
-                                </div>
-                        </td>
-                    </tr>
+                            <div class="blue white-text badge center" id="filesMsg" style="width: 100%"></div>
+                        </div>
 
-                    <tr>
-                        <td colspan="5">
-                            <div class="file-field input-field">
-                                <div class="btn">
-                                    <span>Order Files</span>
-                                    <input type="file" id="file_input" name="files[]" multiple>
-                                </div>
-                                <div class="file-path-wrapper">
-                                    <input class="file-path validate" type="text" placeholder="Upload one or more files">
-                                </div>
+                        <div class="col-md-12 file-field input-field">
+                            <div class="btn">
+                                
+                                <input type="file" id="file_input" name="files[]" multiple>
                             </div>
-                        </td>
 
-                        <td colspan="2">
-                        <input type="hidden" value="<?php echo $order['id'] ?>" id="orderId" />
-                            <button class="btn btn-small waves-effect blue white-text" id="saveFiles">Save Files</button>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <!-- <div class="col s12 m5 l5">
-        <div class="card animated fadeIn">
-            <div class="card-content">
-                <h6 class="card-title">Order Messages</h6>
-                <div class="chatbox">
-                    <div class="chatlogs" id="messageHolder"></div>
-
-                    <div class="chat-form">
-                        <div class="input-field">
-                            <textarea name="messageInput" id="messageInput" class="materialize-textarea"></textarea>
-                            <label for="messageInput">Your Message</label>
-
-                            <input type="hidden" value="admin" id="messageSender">
-                            <input type="hidden" value="writer" id="messageRecipient">
-                            <input type="hidden" value="<?php echo $order["id"] ?>" id="orderId">
-                            <input type="hidden" value="<?php echo $order["writer_id"] ?>" id="writerId">
-
-                           
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" type="hidden" placeholder="Upload one or more files">
+                            </div>
                         </div>
-                        <button class="btn btn-md green white-text" id="sendOrderMessage">Send</button>
+                        
                     </div>
                 </div>
+              </div>
             </div>
-        </div>
-    </div> -->
 
-    <div class="col s12 m12 l5">
-        <div class="container">
-            <div class="card-content">
-                <h5 class="card-title">
-                    Quick Actions
-                    <br>
-                    <p class="center" id="writer_message"></p>
-                </h5>
-
-                <input type="hidden" id="oId" value="<?php echo $order['id'] ?>" />
-                <?php if ($order['status'] == "available") : ?>
-                    <div class="input-field">
-                        <select id="selectedWriter">
-                            <option value="" id="format" name="format" disabled selected>Chose Writer to Assign Order</option>
-                            <?php foreach ($writers as $writer) : ?>
-                                <?php if ($writer["status"] != 0) : ?>
-                                    <option value="<?php echo $writer["id"] ?>">#<?php echo $writer["id"] ?>: <?php echo $writer["name"] ?>: <?php echo $writer["email"] ?></option>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                        </select>
-                        <label>Select Writer to Assign Order</label>
-
-                        <button class="waves-effect btn btn-md blue white-text" id="assignOrderBtn">Assign</button>
-
-                        <hr>
-                    </div>
-
-                <?php endif; ?>
-
-                <div class="row center">
-                    <?php if ($order["status"] == "available") : ?>
-                        <div class="col s3">
-                            <button class="waves-effect btn btn-md purple white-text" id="editBtn">Edit</button>
-                        </div>
-                    <?php endif; ?>
-
-
-                    <?php if ($order["status"] == "completed") : ?>
-                        <div class="col s3">
-                            <button class="waves-effect btn btn-md purple white-text" id="revisionOrderBtn">Revision</button>
-                        </div>
-                    <?php endif; ?>
-
-                    <?php if ($order["status"] == "processing" || $order["status"] == "revision" || $order["status"] == "completed") : ?>
-                        <div class="col s3">
-                            <button class="waves-effect btn btn-md blue white-text" id="reasignOrderBtn">Reasign</button>
-                        </div>
-                    <?php endif; ?>
-
-                    <div class="col s3">
-                        <button class="waves-effect btn btn-md red white-text" id="deleteOrderBtn">Delete</button>
-                    </div>
-
-                    <?php if ($order["status"] == "completed") : ?>
-                        <div class="col s3">
-                            <button class="waves-effect btn btn-md yellow black-text" id="disputeOrderBtn">Dispute</button>
-                        </div>
-
-                        <div class="col s3">
-                            <button class="waves-effect btn btn-md green white-text" id="finishOrderBtn">Finish</button>
-                        </div>
-                    <?php endif; ?>
+            <div class="col-md-4">
+                <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">Admin Actions</h4>
+                  <p class="card-category">Assess and Edit the Work Below</p>
                 </div>
+                <div class="card-body">
+                    <div class="row">
+                        <?php if ($order["status"] == "available") : ?>
+                            <div class="col s3">
+                                <button class="waves-effect btn btn-md purple white-text" id="editBtn">Edit</button>
+                            </div>
+                        <?php endif; ?>
+
+
+                        <?php if ($order["status"] == "completed") : ?>
+                            <div class="col s3">
+                                <button class="waves-effect btn btn-md purple white-text" id="revisionOrderBtn">Revision</button>
+                            </div>
+                        <?php endif; ?>
+
+                        <?php if ($order["status"] == "processing" || $order["status"] == "revision" || $order["status"] == "completed") : ?>
+                            <div class="col s3">
+                                <button class="waves-effect btn btn-md blue white-text" id="reasignOrderBtn">Reasign</button>
+                            </div>
+                        <?php endif; ?>
+
+                        <div class="col s3">
+                            <button class="waves-effect btn btn-md red white-text" id="deleteOrderBtn">Delete</button>
+                        </div>
+
+                        <?php if ($order["status"] == "completed") : ?>
+                            <div class="col s3">
+                                <button class="waves-effect btn btn-md yellow black-text" id="disputeOrderBtn">Dispute</button>
+                            </div>
+
+                            <div class="col s3">
+                                <button class="waves-effect btn btn-md green white-text" id="finishOrderBtn">Finish</button>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            
+                            <input type="hidden" id="oId" value="<?php echo $order['id'] ?>" />
+                            <?php if ($order['status'] == "available") : ?>
+                                <label class="bmd-label-floating">Select Writer to Assign Order</label>
+                                <div class="form-group">
+                                    <select class="form-control" id="selectedWriter">
+                                        <option value="" id="format" name="format" disabled selected>Chose Writer to Assign Order</option>
+                                        <?php foreach ($writers as $writer) : ?>
+                                            <?php if ($writer["status"] != 0) : ?>
+                                                <option class="form-control"  value="<?php echo $writer["id"] ?>">#<?php echo $writer["id"] ?>: <?php echo $writer["name"] ?>: <?php echo $writer["email"] ?></option>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    
+
+                                    <button class="waves-effect btn btn-md blue white-text" id="assignOrderBtn">Assign</button>
+
+                                    <hr>
+                                </div>
+
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+
+              </div>
             </div>
+          </div>
         </div>
-    </div>
 </div>
