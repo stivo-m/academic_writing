@@ -1,0 +1,23 @@
+
+
+.card .card-content .med {
+    padding: 15px;
+}
+
+.card .card-content .small {
+    padding: 7px;
+}
+
+@media only screen and (max-width: 600px){
+    .card .card-content p.card-text{
+        font-size: 7px !important;
+    }
+
+    .card .card-content .medium {
+        padding: 10px 14px !important;
+    }
+    
+    .profile{
+        height: 300px;
+    }
+}

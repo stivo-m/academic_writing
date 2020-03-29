@@ -1,0 +1,2 @@
+//Saving an admin with their data
+INSERT INTO `admin` (`id`, `name`, `email`, `password`, `number`, `level`, `nickname`) VALUES (NULL, 'Steven Maina', 'maichstivo264@gmail.com', '5f4dcc3b5aa765d61d8327deb882cf99', '746244453', 'Super', 'Curtsy');

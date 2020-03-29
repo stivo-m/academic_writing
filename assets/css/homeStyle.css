@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css?family=Abel|Roboto+Mono&display=swap');
+
+nav {
+	z-index: 3;
+}
+header {
+	z-index: 2;
+}
+#nav-bg {
+	z-index: 1;
+}
+
+nav ul a:hover, nav ul a.active {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+body {
+	background: #eee;
+}
+nav {
+	position: fixed;
+	top: 0;
+}
+header {
+	position: relative;
+	background-color: black;
+	padding: 1em 0;
+    height: 100vh;
+}
+
+header::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("http://localhost/curtsy_writing/assets/images/bg.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 65% 50%;
+    opacity: 0.4;
+}
+
+#nav-bg {
+	background: #2ecc71;
+	position: fixed;
+	height: 65px;
+	width: 100%;
+	top: 0;
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12),
+		0 1px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+
+.centered{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+
+.light-font{
+    font-weight: lighter;
+    font-family: 'Roboto Mono';
+    letter-spacing: .1em;
+    padding: 20px 0 0 0;
+}
+
+.card-padding{
+    padding: 7px;
+}
+
+.cardHover{
+    transition: .4s ease-in-out;
+}
+
+.cardHover i{
+    transition: .5s ease-in-out;
+    font-size: 50px; 
+    color: green
+}
+
+.cardHover:hover{
+    transition: .4s ease-in-out;
+    background-color: #2ecc71;
+    color: white;
+}
+
+.cardHover:hover i, .cardHover:hover i:hover{
+    transition: .5s ease-in-out;
+    background-color: #2ecc71;
+    color: white;
+}
+
+.bottom-line{
+    width: 250px;
+    height: 4px;
+    background-color: grey;
+    margin: 10px auto;
+}
+
+@media screen and (max-width: 600px){
+    .centered h1{
+        font-size: 30px;
+    }
+}
