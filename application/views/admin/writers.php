@@ -6,29 +6,94 @@
 <?php endif; ?>
 
 
-<div class="row container animated fadeIn">
-    <div class="col s12">
-        <div class="card">  
-            <div class="card-content">
-                <h3 class="card-title">
-                    Writers
-                </h3>
+<div class="main-panel">
+     <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <a class="navbar-brand" href="javascript:;">Writers</a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end">
+            <form class="navbar-form">
+              <div class="input-group no-border">
+                <input type="text" value="" class="form-control" placeholder="Search...">
+                <button type="submit" class="btn btn-white btn-round btn-just-icon">
+                  <i class="material-icons">search</i>
+                  <div class="ripple-container"></div>
+                </button>
+              </div>
+            </form>
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="javascript:;">
+                  <i class="material-icons">dashboard</i>
+                  <p class="d-lg-none d-md-block">
+                    Stats
+                  </p>
+                </a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">notifications</i>
+                  <span class="notification">5</span>
+                  <p class="d-lg-none d-md-block">
+                    Some Actions
+                  </p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="#">Mike John responded to your email</a>
+                  <a class="dropdown-item" href="#">You have 5 new tasks</a>
+                  <a class="dropdown-item" href="#">You're now friend with Andrew</a>
+                  <a class="dropdown-item" href="#">Another Notification</a>
+                  <a class="dropdown-item" href="#">Another One</a>
+                </div>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link" href="javascript:;" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">person</i>
+                  <p class="d-lg-none d-md-block">
+                    Account
+                  </p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
+                  <a class="dropdown-item" href="#">Profile</a>
+                  <a class="dropdown-item" href="<?php echo base_url("admin/settings"); ?>">Settings</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="<?php echo base_url("admin/logout"); ?>">Log out</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- End Navbar -->
 
-                <span class="badge right green white-text"><?php echo count($writers)?> Total Writers</span>
 
-                <table class="responsive-table">
-                    <thead>
-                        <tr>
-                            <th>#ID</th>
-                            <th>NAME</th>
-                            <th>EMAIL</th>
-                            <th>STATUS</th>
-                            <th>ACTIONS</th>
-                        </tr>
+    <div class="content">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">Active Writers</h4>
+                  <p class="card-category">You have <?php echo count($writers)?> active writers</p>
+                </div>
+                <div class="card-body table-responsive">
+                  <table class="table table-hover">
+                    <thead class="text-warning">
+                      <th>ID</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Status</th>
+                      <th>Options</th>
                     </thead>
-
                     <tbody>
-                        <?php foreach($writers as $writer) : ?>
+                      <?php foreach($writers as $writer) : ?>
                             <tr>
                                 <td>
                                     <?php echo $writer["id"]?>
@@ -54,129 +119,10 @@
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
-                </table>
+                  </table>
+                </div>
+              </div>
             </div>
-        </div>
+          </div>
     </div>
-</div>
-
-
-<div class="fixed-action-btn">
-  <a class="btn-floating btn-large red">
-    <i class="large material-icons">add</i>
-  </a>
-
-  <ul>
-    <li><a class="btn-floating red tooltipped modal-trigger" href="#add_writer" data-position="left" data-tooltip="Add new Writer"><i class="material-icons">person_add</i></a></li>
-    <li><a class="btn-floating blue tooltipped modal-trigger" href="#inviteWriter" data-position="left" data-tooltip="Invite New Writer"><i class="material-icons">insert_link</i></a></li>
-    <li><a class="btn-floating green tooltipped modal-trigger" href="#sendGlobalMessage" data-position="left" data-tooltip="Send Global Message"><i class="material-icons">email</i></a></li>
-  </ul>
-
-</div>
-      
-<!-- Add Writer Modal Structure -->
-<div id="add_writer" class="modal">
-    <div class="modal-content">
-      <h4>Add New Writer</h4>
-      <p class="center" id="writer_reg_message"></p>
-      <hr>
-        <?php echo form_open('admin/add_writer'); ?>
-            <div class="row">
-                <div class="col s12">
-                    <div class="input-field">
-                        <input id="writerName" type="text" name="writerName" class="validate">
-                        <label for="writerName">Writer Name</label>
-                    </div>
-                </div>
-
-                <div class="col s12 m6 l6">
-                    <div class="input-field">
-                        <input id="writerEmail" type="email" name="writerEmail" class="validate">
-                        <label for="writerEmail">Writer Email</label>
-                    </div>
-                </div>
-                <div class="col s12 m6 l6">
-                    <div class="input-field">
-                        <input id="writerNumber" type="number" name="writerNumber" class="validate">
-                        <label for="writerNumber">Mobile Number</label>
-                    </div>
-                </div>
-
-            </div>
-        <?php echo form_close(); ?>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class="waves-effect waves-green blue white-text btn-flat" id="btn_add_writer">Add Writer</a>
-    </div>
-</div>
-
-
-
-<!-- Invite Writer Modal Structure -->
-<div id="inviteWriter" class="modal">
-    <div class="modal-content">
-      <h4>Invite New Writer</h4>
-      <p class="center" id="writer_reg_message"></p>
-      <hr>
-        <?php echo form_open('admin/invite'); ?>
-            <div class="row">
-                <div class="col s12">
-                    <div class="input-field">
-                        <input id="inviteEmail" type="email" name="inviteEmail" class="validate">
-                        <label for="inviteEmail">Writer Email</label>
-                    </div>
-                </div>
-                
-                <div class="col s12">
-                    <div class="input-field">
-                        <textarea id="inviteMessage" class="materialize-textarea"></textarea>
-                        <label for="inviteMessage">Invitation Message</label>
-                    </div>
-                </div>
-
-            </div>
-        <?php echo form_close(); ?>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class="waves-effect waves-green blue white-text btn-flat" id="btnInviteWriter">Invite Writer</a>
-    </div>
-</div>
-
-
-
-<div id="sendGlobalMessage" class="modal">
-    <div class="modal-content">
-      <h4 class=""center>Send Global Message</h4>
-      <p class="center" id="writer_reg_message"></p>
-
-        <?php echo form_open('admin/sendGlobalMessage'); ?>
-            <div class="card">
-                <div class="card-content">
-                    <h6 class="center card-heading">
-                        Enter Message Details
-                    </h6>
-
-                    <div class="row">
-                        <div class="col s12">
-                            <div class="input-field">
-                                <input id="msgTitle" type="text" name="msgTitle" class="validate">
-                                <label for="msgTitle">Message Title</label>
-                            </div>
-                        </div>
-                        
-                        <div class="col s12">
-                            <div class="input-field">
-                                <textarea id="msg" class="materialize-textarea"></textarea>
-                                <label for="msg">Message Body</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <a href="#!" class="waves-effect waves-green blue white-text btn-flat" id="btnSendGlobalMessage">Send Message</a>
-      <?php echo form_close(); ?>
-                </div>
-            </div>
-        
-    </div>
-
 </div>

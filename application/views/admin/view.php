@@ -10,7 +10,7 @@
      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-            <a class="navbar-brand" href="javascript:;">Order <?=$order["id"]?></a>
+            <a class="navbar-brand" href="javascript:;">You are Viewing Order #<?=$order["id"]?></a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>
@@ -242,11 +242,10 @@
                                         <option value="" id="format" name="format" disabled selected>Chose Writer to Assign Order</option>
                                         <?php foreach ($writers as $writer) : ?>
                                             <?php if ($writer["status"] != 0) : ?>
-                                                <option class="form-control"  value="<?php echo $writer["id"] ?>">#<?php echo $writer["id"] ?>: <?php echo $writer["name"] ?>: <?php echo $writer["email"] ?></option>
+                                                <option value="<?php echo $writer["id"] ?>">Writer <?php echo $writer["id"] ?>: <?php echo $writer["email"] ?></option>
                                             <?php endif; ?>
                                         <?php endforeach; ?>
                                     </select>
-                                    
 
                                     <button class="waves-effect btn btn-md blue white-text" id="assignOrderBtn">Assign</button>
 
