@@ -1,7 +1,7 @@
-<?php if(!$this->session->userdata["admin_data"]["admin_login_status"]) : ?>
-    <?php 
-        $url = base_url("admin");
-        redirect($url);
+<?php if (!$this->session->userdata["admin_data"]["admin_login_status"]) : ?>
+    <?php
+    $url = base_url("admin");
+    redirect($url);
     ?>
 <?php endif; ?>
 
@@ -16,10 +16,10 @@
                         <a href="#" class="black-text">
                             <i class="material-icons circle">message</i>
                             <span class="title">Request for Information</span>
-                            <p> 
+                            <p>
                                 <small>Order: #55231
-                                <br>
-                                Writer: Writer@gmail.com</small>
+                                    <br>
+                                    Writer: Writer@gmail.com</small>
                             </p>
                             <p class="secondary-content">
                                 <span class="new badge green white-text center">0</span>
@@ -31,40 +31,40 @@
                         <a href="#" class="black-text">
                             <i class="material-icons circle">message</i>
                             <span class="title">Reassign Reuquest</span>
-                            <p> 
+                            <p>
                                 <small>Order: #2803
-                                <br>
-                                Writer: dflaj@gmail.com</small>
+                                    <br>
+                                    Writer: dflaj@gmail.com</small>
                             </p>
                             <p class="secondary-content">
                                 <span class="new badge green white-text center">0</span>
                             </p>
                         </a>
-                    </li>  
+                    </li>
 
                     <li class="collection-item avatar">
                         <a href="#" class="black-text">
                             <i class="material-icons circle">message</i>
                             <span class="title">Request for Files</span>
-                            <p> 
+                            <p>
                                 <small>Order: #85662
-                                <br>
-                                Writer: dafda@test.com</small>
+                                    <br>
+                                    Writer: dafda@test.com</small>
                             </p>
                             <p class="secondary-content">
                                 <span class="new badge green white-text center">0</span>
                             </p>
                         </a>
-                    </li> 
-                    
+                    </li>
+
                     <li class="collection-item avatar">
                         <a href="#" class="black-text">
                             <i class="material-icons circle">message</i>
                             <span class="title">Request for Information</span>
-                            <p> 
+                            <p>
                                 <small>Order: #55231
-                                <br>
-                                Writer: Writer@gmail.com</small>
+                                    <br>
+                                    Writer: Writer@gmail.com</small>
                             </p>
                             <p class="secondary-content">
                                 <span class="new badge green white-text center">0</span>
@@ -76,32 +76,32 @@
                         <a href="#" class="black-text">
                             <i class="material-icons circle">message</i>
                             <span class="title">Reassign Reuquest</span>
-                            <p> 
+                            <p>
                                 <small>Order: #2803
-                                <br>
-                                Writer: dflaj@gmail.com</small>
+                                    <br>
+                                    Writer: dflaj@gmail.com</small>
                             </p>
                             <p class="secondary-content">
                                 <span class="new badge green white-text center">0</span>
                             </p>
                         </a>
-                    </li>  
+                    </li>
 
                     <li class="collection-item avatar">
                         <a href="#" class="black-text">
                             <i class="material-icons circle">message</i>
                             <span class="title">Request for Files</span>
-                            <p> 
+                            <p>
                                 <small>Order: #85662
-                                <br>
-                                Writer: dafda@test.com</small>
+                                    <br>
+                                    Writer: dafda@test.com</small>
                             </p>
                             <p class="secondary-content">
                                 <span class="new badge green white-text center">0</span>
                             </p>
                         </a>
-                    </li>           
-                    
+                    </li>
+
                 </ul>
             </div>
         </div>
@@ -121,8 +121,8 @@
 
                             <input type="hidden" value="admin" id="messageSender">
                             <input type="hidden" value="writer" id="messageRecipient">
-                            <input type="hidden" value="<?=$id; ?>" id="orderId">
-                            <input type="hidden" value="<?=$writerId?>" id="writerId">
+                            <input type="hidden" value="<?= $id; ?>" id="orderId">
+                            <input type="hidden" value="<?= $writerId ?>" id="writerId">
                         </div>
                         <button class="btn btn-md green white-text" id="sendOrderMessage">Send</button>
                     </div>

@@ -1,14 +1,5 @@
 $(function() {
-	$(".sidenav").sidenav();
-	$(".tabs").tabs();
-	$(".modal").modal();
-	$(".datepicker").datepicker();
-	$(".timepicker").timepicker();
-	$("select").formSelect();
-	$(".fixed-action-btn").floatingActionButton();
-	$(".tooltipped").tooltip();
-
-
+	//$("#viewInvoiceModal").classlist.remove("show");
 	var add_order = $("#btn_add_order");
 	var assignOrder = $("#assignOrderBtn");
 	var getWriterDetails = $("#viewWriter");
@@ -29,21 +20,20 @@ $(function() {
 	var payInvoiceUrl = base_url + "admin/payInvoice/";
 	var msg_holder = $("#writer_message");
 
-	saveFilesBtn.click(function(){
+	saveFilesBtn.click(function() {
 		var fileInput = $("#file_input")[0];
 		var orderId = $("#orderId").val();
 		var url = base_url + "admin/uploadOrderFiles";
 
-		if(fileInput.files.length > 0){
+		if (fileInput.files.length > 0) {
 			var formData = new FormData();
 			formData.append("order", orderId);
-			$.each(fileInput.files, function(k, file){
+			$.each(fileInput.files, function(k, file) {
 				formData.append("files[]", file);
 			});
 
-			
 			doAjax(url, formData, filesMsg);
-		}else{
+		} else {
 			console.log("No files Selected");
 		}
 	});
@@ -183,23 +173,23 @@ $(function() {
 		doAjax(url, req);
 	});
 
-	generateInvoice.click(function(){
+	generateInvoice.click(function() {
 		var totals = $("#totals").text();
 		var writer = $("#writer_id").val();
 		var totalOrders = $("#total_orders").text();
-		
+
 		var url = createInvoiceUrl + "/" + writer;
-		
+
 		var req = new FormData();
 		req.append("writer", writer);
 		req.append("totals", totals);
 		req.append("totalOrders", totalOrders);
 		req.append("request", "createInvoice");
-		
+
 		doAjax(url, req);
 	});
 
-	payInvoice.click(function(){
+	payInvoice.click(function() {
 		var invoice = $("#invoiceId").val();
 		var writer = $("#writer_id").val();
 
@@ -252,6 +242,27 @@ $(function() {
 		doAjax(url, req);
 	});
 
+	function showNotification(from, align, type, message) {
+		// type = ["", "info", "danger", "success", "warning", "rose", "primary"];
+
+		// color = Math.floor(Math.random() * 6 + 1);
+
+		$.notify(
+			{
+				icon: "add_alert",
+				message: message
+			},
+			{
+				type: type,
+				timer: 3000,
+				placement: {
+					from: from,
+					align: align
+				}
+			}
+		);
+	}
+
 	function doAjax(url, formData) {
 		$.ajax({
 			url: url,
@@ -264,13 +275,13 @@ $(function() {
 
 			success: function(response) {
 				// you will get response from your php page (what you echo or print)
+				showNotification("top", "right", "success", "Action Success");
 				msg_holder.html(`${response}`);
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
+				showNotification("top", "right", "warning", "Action Failed");
 				msg_holder.html(
-					`<p class="red white-text p-2"><small>${
-						jqXHR.responseText
-					}</small></p>`
+					`<p class="red white-text p-2"><small>${jqXHR.responseText}</small></p>`
 				);
 			}
 		});

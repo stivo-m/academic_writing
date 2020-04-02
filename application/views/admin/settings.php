@@ -1,91 +1,230 @@
-<?php if(!$this->session->userdata["admin_data"]["admin_login_status"]) : ?>
-    <?php 
-        $url = base_url("admin");
-        redirect($url);
+<?php if (!$this->session->userdata["admin_data"]["admin_login_status"]) : ?>
+    <?php
+    $url = base_url("admin");
+    redirect($url);
     ?>
 <?php endif; ?>
 
 
-<div class="container row animated fadeIn">
-    <div class="col s12">
-        <div class="card">
-            <div class="card-content">
-                <h5 class="center heading-content">Site Settings</h5>
-                <br>
+<div class="content">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title">Writer Settings</h4>
+                    <p class="card-category">Registration and levels</p>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <p class="card-text">
+                            Writer's Access to the System
+                        </p>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" value="" checked>
+                                            <span class="form-check-sign">
+                                                <span class="check"></span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>
+                                    Are new writers allowed to register in the platform?
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" value="" checked>
+                                            <span class="form-check-sign">
+                                                <span class="check"></span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>
+                                    Can Writers login to the platform?
+                                </td>
+                            </tr>
 
-                <ul class="collection">
-                    <li class="collection-item">Writer Registration: 
-                        <span class="right">
-                            <div class="switch">
-                                <label>off
-                                    <input type="checkbox" 
-                                        <?php 
-                                            echo $settings["writer_registration"] ? "checked='checked'" : "";
-                                        ?>
-                                    >
-                                    <span class="lever"></span>on
-                                </label>
-                            </div>
-                        </span>
-                    </li>
+                            <tr>
+                                <td>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" value="">
+                                            <span class="form-check-sign">
+                                                <span class="check"></span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>
+                                    Must writers take a test to join the platform?
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
 
+                    <table class="table">
+                        <p class="card-text">
+                            Writer Levels available in the System
+                        </p>
+                        <thead>
+                            <th>
+                                Level 1
+                            </th>
+                            <th>
+                                Level 2
+                            </th>
+                            <th>
+                                Level 3
+                            </th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" value="" checked>
+                                            <span class="form-check-sign">
+                                                <span class="check"></span>
+                                            </span>
+                                        </label>
 
-                    <li class="collection-item">Site Notifications: 
-                        <span class="right">
-                            <div class="switch">
-                                <label>off
-                                    <input type="checkbox" 
-                                        <?php 
-                                            if($settings["notifications"] == 1)
-                                            {
-                                                echo "checked='checked'";
-                                            }
-                                        ?>
-                                    >
-                                    <span class="lever"></span>on
-                                </label>
-                            </div>
-                        </span>
-                    </li>
+                                        Probation Level
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" value="" checked>
+                                            <span class="form-check-sign">
+                                                <span class="check"></span>
+                                            </span>
+                                        </label>
+                                        Junior Level
+                                    </div>
+                                </td>
 
+                                <td>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" value="" checked>
+                                            <span class="form-check-sign">
+                                                <span class="check"></span>
+                                            </span>
+                                        </label>
+                                        Senior Level
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
-                    <li class="collection-item">Writer Login: 
-                        <span class="right">
-                            <div class="switch">
-                                <label>off
-                                    <input type="checkbox" 
-                                        <?php 
-                                            if($settings["writer_login"] == 1)
-                                            {
-                                                echo "checked='checked'";
-                                            }
-                                        ?>
-                                    >
-                                    <span class="lever"></span>on
-                                </label>
-                            </div>
-                        </span>
-                    </li>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title">Order Settings</h4>
+                    <p class="card-category">CPP, Acces, and others</p>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <p class="card-text">The CPP for Orders in the System</p>
+                        <tbody>
+                            <tr>
+                                <td>Normal Orders | <small>More than 12 hours</small></td>
+                                <td>Ksh. 200 / Page</td>
+                                <td class="td-actions text-right">
+                                    <button type="button" rel="tooltip" title="Edit Option" class="btn btn-primary btn-link btn-sm">
+                                        <i class="material-icons">edit</i>
+                                    </button>
+                                </td>
+                            </tr>
 
+                            <tr>
+                                <td>Urgent Orders | <small>Between 5 - 12 hours</small></td>
+                                <td>Ksh. 250 / Page</td>
+                                <td class="td-actions text-right">
+                                    <button type="button" rel="tooltip" title="Edit Option" class="btn btn-primary btn-link btn-sm">
+                                        <i class="material-icons">edit</i>
+                                    </button>
+                                </td>
+                            </tr>
 
-                    <li class="collection-item">Writers Access to Orders: 
-                        <span class="right">
-                            <div class="switch">
-                                <label>off
-                                    <input type="checkbox" 
-                                        <?php 
-                                            if($settings["order_access"] == 1)
-                                            {
-                                                echo "checked='checked'";
-                                            }
-                                        ?>
-                                    >
-                                    <span class="lever"></span>on
-                                </label>
-                            </div>
-                        </span>
-                    </li>
-                </ul>
+                            <tr>
+                                <td>Super Urgent Orders | <small>Below 3.5 hours</small></td>
+                                <td>Ksh. 300 / Page</td>
+                                <td class="td-actions text-right">
+                                    <button type="button" rel="tooltip" title="Edit Option" class="btn btn-primary btn-link btn-sm">
+                                        <i class="material-icons">edit</i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table">
+                        <p class="card-title">
+                            Access to Orders
+                        </p>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" value="" checked>
+                                            <span class="form-check-sign">
+                                                <span class="check"></span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>
+                                    Can Probation writers take orders?
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" value="" checked>
+                                            <span class="form-check-sign">
+                                                <span class="check"></span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>
+                                    Can Junior writers take at least 2 orders?
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" value="" checked>
+                                            <span class="form-check-sign">
+                                                <span class="check"></span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>
+                                    Can Senior writers take at least 3 orders?
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
