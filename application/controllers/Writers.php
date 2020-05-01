@@ -11,7 +11,7 @@ class Writers extends CI_Controller
         $data['error'] = "Please Login to Continue...";
 
 
-        $this->load->view('templetes/writer/header', $data);
+        $this->load->view('templetes/writer/header2', $data);
         $this->load->view('writer/auth/login', $data);
         $this->load->view('templetes/writer/footer');
     }
@@ -39,7 +39,7 @@ class Writers extends CI_Controller
                 'writer_login_status' => true
             );
 
-            $config = Array(
+            $config = array(
                 'protocol' => 'smtp',
                 'smtp_host' => 'ssl://smtp.googlemail.com',
                 'smtp_port' => 465,
@@ -48,9 +48,9 @@ class Writers extends CI_Controller
                 'mailtype' => 'html',
                 'charset' => 'iso-8859-1',
                 'wordwrap' => TRUE
-              );
-              
-              $email_config = Array(
+            );
+
+            $email_config = array(
                 'protocol'  => 'smtp',
                 'smtp_host' => 'bh-24.webhostbox.net',
                 'smtp_port' => '465',
@@ -59,13 +59,13 @@ class Writers extends CI_Controller
                 'mailtype'  => 'html',
                 'starttls'  => true,
                 'newline'   => "\r\n"
-                );
-            $this->load->library('email', $email_config);
-            $this->email->from($to, 'FEEDBACK');
-            $this->email->to('feedback@domain.com');
-            $this->email->subject($sub);
-            $this->email->message($msg);
-            $this->email->send();
+            );
+            // $this->load->library('email', $email_config);
+            // $this->email->from($to, 'FEEDBACK');
+            // $this->email->to('feedback@domain.com');
+            // $this->email->subject($sub);
+            // $this->email->message($msg);
+            // $this->email->send();
 
             $this->session->set_userdata("writer_data", $writer_data);
             $this->session->set_flashdata("writer_login", "You are now Logged In!");
@@ -75,13 +75,11 @@ class Writers extends CI_Controller
             //redirect to dashboard page
         } else {
             $data['title'] = "Writer | Login";
-            $data['error'] = "User does not Exist";
+            $data['error'] = "Writer does not Exist";
 
-            $this->load->view('templetes/writer/header', $data);
+            $this->load->view('templetes/writer/header2', $data);
             $this->load->view('writer/auth/login', $data);
             $this->load->view('templetes/writer/footer');
-       
-       
         }
     }
 
@@ -99,14 +97,13 @@ class Writers extends CI_Controller
 
         $result = '';
         $validate = $this->Writer_Model->loginWriter($email, $enc_password);
-        if($validate){
+        if ($validate) {
             $result = $this->Writer_Model->getProfile($email);
-        }else{
+        } else {
             $result = null;
         }
 
         return json_encode($result);
-
     }
 
     //logout
@@ -128,6 +125,9 @@ class Writers extends CI_Controller
         $writer = $this->session->userdata["writer_data"]["writer_id"];
         $data['title'] = "Writer | Dashboard";
         $data["msg_count"] = "0";
+        $data["id"] = 0;
+
+
         $data['available'] = $this->Writer_Model->getOrders("available", null);
         $data['processing'] = $this->Writer_Model->getOrders("processing", $writer);
         $data['revisions'] = $this->Writer_Model->getOrders("revision", $writer);
@@ -160,6 +160,7 @@ class Writers extends CI_Controller
             $data['title'] = "Writer | Orders";
             $data["msg_count"] = "0";
             $data["id"] = $id;
+
             $data['available'] = $this->Writer_Model->getOrders("available", null);
             $data['processing'] = $this->Writer_Model->getOrders("processing", $writer);
             $data['revisions'] = $this->Writer_Model->getOrders("revision", $writer);
@@ -213,12 +214,12 @@ class Writers extends CI_Controller
         $this->load->library('upload', $config);
         $this->upload->initialize($config);
 
-        $output = '<ul class="collection">';
-        $output .= `<li class="collection-item"><span class="green-text">Files Uploaded</span></li>`;
-        if(!is_writable("./uploads/")){ 
+        $output = '';
+        // $output .= `<li class="collection-item"><span class="green-text">Files Uploaded</span></li>`;
+        if (!is_writable("./uploads/")) {
             print("No Directory Found");
-            return; 
-         }
+            return;
+        }
 
         for ($i = 0; $i < $countUploadedFiles; $i++) {
             $_FILES['file']["name"] = preg_replace('/\s+/', '', $_FILES['files']['name'][$i]);
@@ -234,44 +235,32 @@ class Writers extends CI_Controller
                 $data = $this->upload->data();
 
                 $upload_info = array(
-                    'filename' => $_FILES['file']["name"], 
-                    'type' => $_FILES['file']["type"], 
+                    'filename' => $_FILES['file']["name"],
+                    'type' => $_FILES['file']["type"],
                     'size' => $_FILES['file']["size"],
                     'order_id' =>  $id,
                     'uploaded_by' => "writer"
 
                 );
 
-                if($this->Writer_Model->uploadFiles($upload_info)){
+                if ($this->Writer_Model->uploadFiles($upload_info)) {
                     $output .= '
-                        <li class="collection-item">
-                            
-                            <a href="'.base_url().'upload/'.$data["file_name"].'" >
-                            '. $data["file_name"]. '
-                            </a>
-                        </li>
+                        <p class="text-default">Files Saved Successfully</p>
                     ';
-                
-                }else{
+                } else {
                     $output .= '
-                    <li class="collection-item">
-                        <a href="" >
-                         Files not saved to DB
-                        </a>
-                    </li>
+                   <p class="text-danger">Error Occured. Files were not saved</p>
                 ';
-                
                 }
-                
-                
+
                 # code...
 
-            }else{
-                $output .= `<p class="red-text">Error Occured</p>`;
+            } else {
+                $output .= `<p class="text-danger">Error Occured</p>`;
             }
             foreach ($f as $file) {
                 //TODO: upload files
-                
+
             }
         }
         $output .= '</ul>';
@@ -283,48 +272,49 @@ class Writers extends CI_Controller
     //download file
     public function download($file)
     {
-    $this->load->helper('download');
-    $name = $file;
-    $data = file_get_contents('./uploads/'.$file);
-    $path = "./uploads/" . $name;
-    
-    if(is_file($path))
-      {
-        // required for IE
-        if(ini_get('zlib.output_compression')) { ini_set('zlib.output_compression', 'Off'); }
+        $this->load->helper('download');
+        $name = $file;
+        $data = file_get_contents('./uploads/' . $file);
+        $path = "./uploads/" . $name;
 
-        // get the file mime type using the file extension
-        $this->load->helper('file');
+        if (is_file($path)) {
+            // required for IE
+            if (ini_get('zlib.output_compression')) {
+                ini_set('zlib.output_compression', 'Off');
+            }
 
-        $mime = get_mime_by_extension($path);
+            // get the file mime type using the file extension
+            $this->load->helper('file');
 
-        // Build the headers to push out the file properly.
-        header('Pragma: public');     // required
-        header('Expires: 0');         // no cache
-        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-        header('Last-Modified: '.gmdate ('D, d M Y H:i:s', filemtime ($path)).' GMT');
-        header('Cache-Control: private',false);
-        header('Content-Type: '.$mime);  // Add the mime type from Code igniter.
-        header('Content-Disposition: attachment; filename="'.basename($name).'"');  // Add the file name
-        header('Content-Transfer-Encoding: binary');
-        header('Content-Length: '.filesize($path)); // provide file size
-        header('Connection: close');
-        readfile($path); // push it out
-        
-        exit();
-    }
+            $mime = get_mime_by_extension($path);
 
-    force_download($name, $data); 
-        redirect('index','refresh');
-   
+            // Build the headers to push out the file properly.
+            header('Pragma: public');     // required
+            header('Expires: 0');         // no cache
+            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+            header('Last-Modified: ' . gmdate('D, d M Y H:i:s', filemtime($path)) . ' GMT');
+            header('Cache-Control: private', false);
+            header('Content-Type: ' . $mime);  // Add the mime type from Code igniter.
+            header('Content-Disposition: attachment; filename="' . basename($name) . '"');  // Add the file name
+            header('Content-Transfer-Encoding: binary');
+            header('Content-Length: ' . filesize($path)); // provide file size
+            header('Connection: close');
+            readfile($path); // push it out
+
+            exit();
+        }
+
+        force_download($name, $data);
+        redirect('index', 'refresh');
     }
 
 
     //finances
-    public function finances()
+    public function finances($writerId = NULL)
     {
         $writer = $this->session->userdata["writer_data"]["writer_id"];
         $data["title"] = "Writer | Finances";
+        $data["id"] = $writerId;
         $data["msg_count"] = "0";
         $data["writer"] = $this->Writer_Model->getProfile($this->session->userdata["writer_data"]["writer_email"]);
         $data['processing'] = $this->Writer_Model->getOrders("processing", $writer);
@@ -332,21 +322,25 @@ class Writers extends CI_Controller
         $data['disputes'] = $this->Writer_Model->getOrders("disputed", $writer);
         $data['completed'] = $this->Writer_Model->getOrders("completed", $writer);
         $data['finished'] = $this->Writer_Model->getOrders("finished", $writer);
+
         $data['invoiced'] = $this->Writer_Model->getInvoicedOrders($writer);
-        $data["invoices"] = $this->Writer_Model->getInvoices($writer);
+        $data["invoices"] = $this->Writer_Model->obtainInvoices($writer);
+        $data["singleInvoice"] = $this->Admin_Model->getInvoice($writer);
+        $data["invoi"] = $this->Writer_Model->getInvoices($writer);
 
         $this->load->view('templetes/writer/header', $data);
         $this->load->view('templetes/writer/nav', $data);
-        $this->load->view('writer/finances', $data);
+        $writerId == null ? $this->load->view('writer/finances', $data) : $this->load->view('writer/financeWriterView', $data);
         $this->load->view('templetes/writer/footer');
     }
 
     //profile
-    public function profile()
+    public function settings()
     {
         $writer = $this->session->userdata["writer_data"]["writer_id"];
         $data["title"] = "Writer | Profile";
         $data["msg_count"] = "0";
+        $data["id"] = $this->session->userdata["writer_data"]["writer_id"];
         $data["writer"] = $this->Writer_Model->getProfile($this->session->userdata["writer_data"]["writer_email"]);
         $data['processing'] = $this->Writer_Model->getOrders("processing", $writer);
         $data['revisions'] = $this->Writer_Model->getOrders("revision", $writer);

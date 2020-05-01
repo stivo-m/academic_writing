@@ -83,6 +83,13 @@ class Admin_Model extends CI_Model
             "<p class='red center white-text p-2 animated fadeIn'><small>An Error Occured</small></p>";
     }
 
+
+    public function update_order($order_data)
+    {
+        $this->db->where("id", $order_data["id"]);
+        return $this->db->update("orders", $order_data);
+    }
+
     public function re_assignOrder($order)
     {
         $this->db->where("id", $order);
@@ -146,19 +153,21 @@ class Admin_Model extends CI_Model
 
         if ($q->num_rows() > 0) {
             $moreData = $q->row_array();
-            $invoiceData = array(
-                'writer_id' => $orderDetails["writer_id"],
-                'payment_status' => 'not paid',
-                'orders' => $moreData["orders"] + 1,
-            );
-            $this->db->update('invoices', $invoiceData);
+            if ($moreData["payment_status"] == "not paid" && $moreData["writer_id"] == $orderDetails["writer_id"]) {
+                $invoiceData = array(
+                    'writer_id' => $orderDetails["writer_id"],
+                    'payment_status' => 'not paid',
+                    'orders' => $moreData["orders"] + 1,
+                );
+                $this->db->update('invoices', $invoiceData);
 
-            $data = array(
-                'writer_id' => $orderDetails["writer_id"],
-                'order_id' => $orderDetails["id"],
-                'pay_status' => 'finished',
-                'invoice_id' => $moreData["id"]
-            );
+                $data = array(
+                    'writer_id' => $orderDetails["writer_id"],
+                    'order_id' => $orderDetails["id"],
+                    'pay_status' => 'finished',
+                    'invoice_id' => $moreData["invoice_id"]
+                );
+            }
 
             $result = $this->db->insert("invoice_details", $data);
         } else {
@@ -247,9 +256,9 @@ class Admin_Model extends CI_Model
         $result = null;
         if ($id == NULL) {
 
-            $this->db->select("invoices.id, invoices.payment_status, invoices.writer_id, invoices.orders, writers.id, writers.name");
-            $this->db->from("invoices");
-            $this->db->join('writers', 'invoices.writer_id = writers.id');
+            $this->db->select("invoices.invoice_id, invoices.payment_status, invoices.writer_id, invoices.orders, writers.id, writers.name");
+            $this->db->from("writers");
+            $this->db->join('invoices', 'invoices.writer_id = writers.id');
             $result = $this->db->get();
         } else {
             $this->db->where("writer_id", $id);
@@ -266,19 +275,19 @@ class Admin_Model extends CI_Model
 
         $result = null;
         if ($id == NULL) {
-            $this->db->select("writers.id, writers.name, writers.email, invoices.id, invoices.payment_status, invoices.orders, invoice_details.order_id, invoice_details.invoice_id, invoice_details.pay_status");
+            $this->db->select("writers.id, writers.name, writers.email, invoices.invoice_id, invoices.payment_status, invoices.orders, invoice_details.order_id, invoice_details.invoice_id, invoice_details.pay_status");
             $this->db->from('writers');
             // $this->db->join('orders', 'writers.id = orders.writer_id');
             $this->db->join('invoice_details', 'writers.id = invoice_details.writer_id');
-            $this->db->join('invoices', 'invoices.id = invoice_details.invoice_id');
+            $this->db->join('invoices', 'invoices.invoice_id = invoice_details.invoice_id');
             $result = $this->db->get();
             return $result->result_array();
         } else {
-            $this->db->select("writers.id, writers.name, writers.email, invoices.id, invoices.payment_status, invoices.orders, invoice_details.order_id, invoice_details.invoice_id,  invoice_details.pay_status, orders.pages,  orders.id, orders.cost, orders.status, orders.title, ");
+            $this->db->select("writers.id, writers.name, writers.email, invoices.invoice_id, invoices.payment_status, invoices.orders, invoice_details.order_id, invoice_details.invoice_id,  invoice_details.pay_status, orders.pages,  orders.id, orders.cost, orders.status, orders.title, ");
             $this->db->from('writers');
             $this->db->join('orders', 'writers.id = orders.writer_id');
             $this->db->join('invoice_details', 'orders.id = invoice_details.order_id');
-            $this->db->join('invoices', 'invoices.id = invoice_details.invoice_id');
+            $this->db->join('invoices', 'invoices.invoice_id = invoice_details.invoice_id');
             $this->db->where("invoice_details.writer_id", $id);
             $result = $this->db->get();
             return $result->result_array();

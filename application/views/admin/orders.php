@@ -5,17 +5,20 @@
     ?>
 <?php endif; ?>
 <div class="content">
+
     <div class="container-fluid">
         <div class="tab-content">
             <div class="card">
                 <div class="card-header card-header-primary">
                     <div class="nav-tabs-navigation">
                         <div class="nav-tabs-wrapper">
-                            <span class="nav-tabs-title">
-                                New Order
-                            </span>
-                            <ul class="nav nav-tabs" id="myTab" role="tablist">
 
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link" id="new-tab" data-toggle="tab" href="#newOrder" role="tab" aria-controls="settings" aria-selected="false">
+                                        <i class="material-icons">add</i> New Order
+                                    </a>
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link active show" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Available</a>
                                 </li>
@@ -38,6 +41,118 @@
                 </div>
                 <div class="card-body">
                     <div class="tab-content">
+                        <div class="tab-pane" id="newOrder" role="tabpanel" aria-labelledby="new-tab">
+                            <div class="container">
+                                <div class="msg_holder">
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <input id="title" type="text" name="title" class="validate form-control">
+                                            <label class="bmd-label-floating" for="title">Order Title</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group">
+                                            <input id="pages" type="number" name="pages" class="validate form-control">
+                                            <label class="bmd-label-floating" for="pages">Order Pages</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group">
+                                            <select class="form-control" id="spacing">
+                                                <option value="0" disabled selected>
+                                                    Select Order Spacing
+                                                </option>
+
+                                                <option value="1">Single (550 Words / Page)</option>
+                                                <option value="2">Double (275 Words / Page)</option>
+                                                <option value="3">Double (300 Words / Page)</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group">
+
+                                            <select class="form-control" id="format">
+                                                <option value="0" disabled selected>Select Order Format</option>
+
+                                                <option value="1">APA</option>
+                                                <option value="2">MLA</option>
+                                                <option value="3">Havard</option>
+                                                <option value="4">Chicago / Turabian</option>
+                                                <option value="5">Other</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group">
+                                            <input id="date_deadline" type="date" name="date_deadline" class="datepicker validate form-control">
+                                            <label class="" for="date_deadline">Order Date</label>
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group">
+                                            <select class="form-control" id="level">
+                                                <option value="0" disabled selected>Chose Order Level</option>
+                                                <option value="1">High School</option>
+                                                <option value="2">College</option>
+                                                <option value="3">University</option>
+                                                <option value="3">Masters</option>
+                                                <option value="3">P.hD</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group">
+                                            <input id="time_date" type="time" name="time_date" class="timepicker validate form-control">
+                                            <label class="" for="time_date">Order Time</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group">
+                                            <select class="form-control" id="sources">
+                                                <option value="0" disabled selected>
+                                                    Select Number of Sources
+                                                </option>
+
+                                                <?php for ($i = 1; $i < 20; $i++) : ?>
+                                                    <option value="<?= $i; ?>"><?= $i ?> Sources</option>
+                                                <?php endfor; ?>
+                                            </select>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group">
+                                            <textarea name="instructions" class="form-control" id="instructions">
+                                            </textarea>
+                                            <label class="bmd-label-floating" for="orderInstructions">Order Instructions</label>
+                                        </div>
+                                        <button class="btn btn-primary right" id="btn_add_order">Add Order</button>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
                         <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
                             <div class="table-responsive">
                                 <table class="table table-hover">
@@ -288,9 +403,7 @@
                 </div>
             </div>
         </div>
-
-
-
     </div>
 </div>
+
 </div>

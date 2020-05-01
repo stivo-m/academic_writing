@@ -1,150 +1,111 @@
-<?php if(!$this->session->userdata["writer_data"]["writer_login_status"]) : ?>
-    <?php 
-        $url = base_url("writers");
-        redirect($url);
-    ?>
+<?php if (!$this->session->userdata["writer_data"]["writer_login_status"]) : ?>
+  <?php
+  $url = base_url("writers");
+  redirect($url);
+  ?>
 <?php endif; ?>
 
-<div class="container animated fadeIn">
+<div class="content">
+  <div class="container-fluid">
     <div class="row">
-        <div class="col s12 m4 l4">
-            <div class="card">
-                <div class="card-content">
-                    <h5 class="card-heading center">
-                        Writer Profile
-                        <br>
-                    </h5>
-                    <div class="row">
-                        <div class="col s12">
-                            <img class="responsive-img circle" src="http://www.american.edu/uploads/profiles/large/chris_palmer_profile_11.jpg">
-                        </div>
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header card-header-tabs card-header-primary">
+            <div class="nav-tabs-navigation">
+              <div class="nav-tabs-wrapper">
+                <span class="nav-tabs-title">Stats:</span>
+                <ul class="nav nav-tabs" data-tabs="tabs">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#processing" data-toggle="tab">
+                      <i class="material-icons">autorenew</i> Processing
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
 
-                        <div class="col s12">
-                            <br>
-                            <p class="card-text">
-                                <b>Writer Id: </b>#<?=$writer["id"]?>
-                            </p><br>
-                            <p class="card-text">
-                                <b>Name:</b> <?=$writer["name"]?>
-                            </p><br>
-
-                            <p class="card-text">
-                                <b>Email:</b> <?=$writer["email"]?>
-                            </p><br>
-
-                            <p class="card-text">
-                                <b>Number:</b> 0<?=$writer["number"]?>
-                            </p><br>
-
-                            <p class="card-text">
-                                <b>Status:</b> <?php echo $writer["status"] == 1 ? "<span class='green-text'>Verified</span>" : "<span class='red-text'>Unverified | Probation</span>"?>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-footer">
-                    <div class="row">
-                        <div class="col s12">
-                            <button style="width: 100%" class="btn btn-medium blue white-text waves-effect">Edit Profile</button>
-                        </div>
-                        <br>
-                    </div>
-                </div>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#revision" data-toggle="tab">
+                      <i class="material-icons">error_outline</i> Revision
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#completed" data-toggle="tab">
+                      <i class="material-icons">playlist_add_check</i> Completed
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#paid" data-toggle="tab">
+                      <i class="material-icons">check_circle_outline</i> Paid
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </div>
+          </div>
+          <div class="card-body">
+
+          </div>
         </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card card-profile">
+          <div class="card-avatar">
+            <a href="javascript:;">
+              <img class="img" src="https://i.ya-webdesign.com/images/placeholder-image-png-19.png" />
+            </a>
+          </div>
+          <div class="card-body">
+            <h6 class="card-category text-gray">Writer: <?= $writer["id"] ?></h6>
+            <h4 class="card-title"><?= $writer["name"] ?></h4>
+            <h5 class="card-title"><?= $writer["email"] ?></h5>
+            <p class="card-description">
+              <?php $current = 0;
+              $revisions = 0;
+              $completed = 0;
+              $paid = 0; ?>
 
+              <?php foreach ($writer_orders as $order) : ?>
 
-        <div class="col s12 m8 l8">
-            <div class="card">
-                <div class="card-content">
-                    <h5 class="card-heading center">
-                        Statistics
-                        <br>
-                    </h5>
+                <?php if ($order["status"] == "processing") : ?>
+                  <?php
+                  $current++;
+                  ?>
+                <?php endif; ?>
 
-                    <ul class="collection">
-                        <li class="collection-item">Current Orders: <span class="right"><?php echo count($processing)?> Orders</span></li>
-                        <li class="collection-item">Revision Orders: <span class="right"><?php echo count($revisions)?> Orders</span></li>
-                        <li class="collection-item">Completed Orders: <span class="right"><?php echo count($completed)?> Orders</span></li>
-                        <li class="collection-item">Disputed Orders: <span class="right"><?php echo count($disputes)?> Orders</span></li>
-                        <li class="collection-item">Finished Orders: <span class="right"><?php echo count($finished)?> Orders</span></li>
-                    </ul>
+                <?php if ($order["status"] == "completed") : ?>
+                  <?php
+                  $completed++;
+                  ?>
+                <?php endif; ?>
 
-                    <h5 class="card-heading center">
-                        Finances
-                    </h5>
+                <?php if ($order["status"] == "paid") : ?>
+                  <?php
+                  $paid++;
+                  ?>
+                <?php endif; ?>
 
-                    <ul class="collection">
-                        <li class="collection-item">Current Orders Totals: 
-                            <span class="right">Ksh. 
-                                <?php 
-                                    $total = 0;
-                                    foreach($processing as $order){
-                                        $total += $order["cost"];
-                                    }
-
-                                    echo number_format($total);
-                                ?>
-                            </span>
-                        </li>
-                        
-                        <li class="collection-item">Pending Payments Totals: 
-                            <span class="right">Ksh. 
-                                <?php 
-                                    $total = 0;
-                                    foreach($completed as $order){
-                                        $total += $order["cost"];
-                                    }
-
-                                    echo number_format($total);
-                                ?>
-                            </span>
-                        </li>
-
-                        <li class="collection-item">Revision Orders Totals: 
-                            <span class="right">Ksh. 
-                                <?php 
-                                    $total = 0;
-                                    foreach($revisions as $order){
-                                        $total += $order["cost"];
-                                    }
-
-                                    echo number_format($total);
-                                ?>
-                            </span>
-                        </li>
-
-                        <li class="collection-item">Disputed Orders Totals: 
-                            <span class="right">Ksh. 
-                                <?php 
-                                    $total = 0;
-                                    foreach($disputes as $order){
-                                        $total += $order["cost"];
-                                    }
-
-                                    echo number_format($total);
-                                ?>
-                            </span>
-                        </li>
-
-                        <li class="collection-item">Totals Made: 
-                            <span class="right">Ksh. 
-                                <?php 
-                                    $total = 0;
-                                    foreach($finished as $order){
-                                        $total += $order["cost"];
-                                    }
-
-                                    echo number_format($total);
-                                ?>
-                            </span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+                <?php if ($order["status"] == "revision") : ?>
+                  <?php
+                  $revisions++;
+                  ?>
+                <?php endif; ?>
+              <?php endforeach; ?>
+              <hr>
+              <b>Current Orders: </b><?= $current ?> Orders
+              <hr>
+              <b>Revision Orders: </b><?= $revisions ?> Orders
+              <hr>
+              <b>Completed Orders: </b><?= $completed ?> Orders
+              <hr>
+              <b>Paid Orders: </b><?= $paid ?> Orders
+            </p>
+            <a href="javascript:;" class="btn btn-primary btn-round">Edit</a>
+            <a href="javascript:;" class="btn btn-default btn-round">Delete</a>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
-
-

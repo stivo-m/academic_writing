@@ -1,30 +1,52 @@
-<nav class="nav-wrapper teal">
-    <div class="container">
-        <a class="brand-logo" href="#" style="font-size: 20px">
-            <small>
-                Welcome, <?php echo $this->session->userdata["writer_data"]["writer_name"] ?>
-            </small>
-        </a>
-        <a class="sidenav-trigger" data-target="mobile-links" href="#">
-            <i class="material-icons">menu</i>
-        </a>
-        <ul class="right hide-on-med-and-down">
-            <li><a href="<?php echo base_url("writers/dashboard"); ?>">Dashboard</a></li>
-            <li><a href="<?php echo base_url("writers/orders"); ?>">Orders</a></li>
-            <li><a href="<?php echo base_url("writers/finances"); ?>">Finances</a></li>
-            <li><a href="<?php echo base_url("writers/profile"); ?>">Profile</a></li>
-            <li><a class="red white-text" href="<?php echo base_url("writers/logout"); ?>">Logout</a></li>
-        </ul>
-    </div>
-</nav>
+<div class="sidebar" data-color="purple" data-background-color="white" data-image="<?php echo base_url("assets/writers/img/sidebar-1.jpg") ?>">
+  <!--
+        Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
-<ul class="sidenav" id="mobile-links">
-    <li class="mb-5"></li>
-    <li><a href="<?php echo base_url("writers/dashboard"); ?>">Dashboard</a></li>
-    <li><a href="<?php echo base_url("writers/orders"); ?>">Orders</a></li>
-    <li><a href="<?php echo base_url("writers/finances"); ?>">Finances</a></li>
-    <li><a href="<?php echo base_url("writers/profile"); ?>">Profile</a></li>
-    <li><a class="red white-text" href="<?php echo base_url("writers/logout"); ?>">Logout</a></li>
+        Tip 2: you can also add an image using data-image tag
+    -->
+  <div class="logo"><a href="http://www.creative-tim.com" class="simple-text logo-normal">
+      Curtsy Writing
+    </a></div>
+  <div class="sidebar-wrapper">
+    <ul class="nav">
+      <li class="nav-item <?php if ($this->uri->uri_string() == "writers/dashboard") {
+                            echo "active";
+                          } ?>">
+        <a class="nav-link" href="<?php echo base_url('writers/dashboard') ?>">
+          <i class="material-icons">dashboard</i>
+          <p>Dashboard</p>
+        </a>
 
-</ul>
+      </li>
+
+
+      <li class="nav-item <?php if ($this->uri->uri_string() == "writers/orders" || $this->uri->uri_string() == "writers/orders/" . $id) {
+                            echo "active";
+                          } ?>">
+        <a class="nav-link" href="<?php echo base_url('writers/orders') ?>">
+          <i class="material-icons">content_paste</i>
+          <p>All Orders</p>
+        </a>
+      </li>
+
+      <li class="nav-item 
+      <?php if ($this->uri->uri_string() == "writers/finances" || $this->uri->uri_string() == "writers/finances/" . $id) {
+        echo "active";
+      } ?>">
+        <a class="nav-link" href="<?php echo base_url('writers/finances') ?>">
+          <i class="material-icons">attach_money</i>
+          <p>Finances</p>
+        </a>
+      </li>
+
+      <li class="nav-item <?php if ($this->uri->uri_string() == "writers/settings") {
+                            echo "active";
+                          } ?>">
+        <a class="nav-link" href="<?php echo base_url('writers/settings') ?>">
+          <i class="material-icons">settings</i>
+          <p>Settings</p>
+        </a>
+      </li>
+    </ul>
+  </div>
 </div>

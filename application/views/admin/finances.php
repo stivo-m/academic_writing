@@ -66,7 +66,7 @@
                                         <?php foreach ($singleInvoice as $invoice) : ?>
                                             <tr>
                                                 <td>
-                                                    #<?= $invoice["id"] ?>
+                                                    #<?= $invoice["invoice_id"] ?>
                                                 </td>
                                                 <td>
                                                     <?= $invoice["name"] ?>

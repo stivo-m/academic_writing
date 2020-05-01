@@ -1,7 +1,6 @@
 </div>
 </div>
 <script src="<?php echo base_url('assets/admin/js/core/jquery.min.js') ?>"></script>
-<script src="<?php echo base_url('assets/js/orders.js') ?>"></script>
 
 <script src="<?php echo base_url('assets/admin/js/core/popper.min.js') ?>"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
@@ -41,19 +40,9 @@
 <script src="<?php echo base_url('assets/admin/js/plugins/bootstrap-notify.js') ?>"></script>
 <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="<?php echo base_url('assets/admin/js/material-dashboard.js?v=2.1.2') ?>" type="text/javascript"></script>
-<!-- <script src="<?php echo base_url('assets/admin/js/adminScripts.js') ?>"></script> -->
 <script src="<?php echo base_url('assets/admin/js/plugins/jquery.countdown.js') ?>"></script>
+<script src="<?php echo base_url('assets/admin/js/adminScripts.js') ?>"></script>
 
-<script>
-  function getDeadline(itemClass, deadline) {
-    var item = $(itemClass);
-    console.log("working");
-
-    item.countdown(deadline, function(event) {
-      $(this).html(event.strftime('%d days | %Hh:%Mm:%Ss'));
-    });
-  }
-</script>
 
 <script>
   $(document).ready(function() {

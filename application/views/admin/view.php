@@ -13,7 +13,22 @@
                 <div class="card">
                     <div class="card-header card-header-primary">
                         <h4 class="card-title">Order <?= $order["id"] ?></h4>
-                        <p class="card-category">Order Status: <?php echo ucfirst($order["status"]) ?></p>
+                        <p class="card-category">
+                            Order Status:
+                            <span class=" 
+                                <?php if ($order["status"] == "completed") {
+                                    echo "text-default";
+                                } else if ($order["status"] == "available" || $order["status"] == "finished" || $order["status"] == "processing") {
+                                    echo "text-warning";
+                                } else {
+                                    echo "text-danger";
+                                }
+
+                                ?>">
+                                <?php echo ucfirst($order["status"]) ?>
+                            </span>
+
+                        </p>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -40,15 +55,15 @@
 
                             <div class="col-md-6">
                                 <b>Deadline: </b>
-                                <span class="deadline">
-                                </span>
+
+                                <span id="cntdwn" class="text-danger"> </span>
                             </div>
                             <div class="col-md-6">
                                 <b>Cost: </b> Ksh. <?php echo $order['cost'] ?>
                             </div>
                         </div>
 
-                        <br>
+                        <hr>
                         <div class="row">
                             <div class="col-md-12">
                                 <h5 class="card-title">
@@ -61,7 +76,11 @@
                                 <p class="card-content">
                                     <?php echo $order['instructions'] ?>
                                 </p>
+                                <hr>
                             </div>
+
+
+
                         </div>
 
                         <div class="row">
@@ -129,34 +148,34 @@
                         <div class="row">
                             <?php if ($order["status"] == "available") : ?>
                                 <div class="col s3">
-                                    <button class="waves-effect btn btn-md purple white-text" id="editBtn">Edit</button>
+                                    <button class="btn btn-info purple white-text" id="editBtn" data-toggle="modal" data-target="#editOrderModal">Edit</button>
                                 </div>
                             <?php endif; ?>
 
 
                             <?php if ($order["status"] == "completed") : ?>
                                 <div class="col s3">
-                                    <button class="waves-effect btn btn-md purple white-text" id="revisionOrderBtn">Revision</button>
+                                    <button class="btn btn-warning purple white-text" id="revisionOrderBtn">Revision</button>
                                 </div>
                             <?php endif; ?>
 
                             <?php if ($order["status"] == "processing" || $order["status"] == "revision" || $order["status"] == "completed") : ?>
                                 <div class="col s3">
-                                    <button class="waves-effect btn btn-md blue white-text" id="reasignOrderBtn">Reasign</button>
+                                    <button class="btn btn-warning white-text" id="reasignOrderBtn">Reasign</button>
                                 </div>
                             <?php endif; ?>
 
                             <div class="col s3">
-                                <button class="waves-effect btn btn-md red white-text" id="deleteOrderBtn">Delete</button>
+                                <button class="waves-effect btn btn-danger red white-text" id="deleteOrderBtn">Delete</button>
                             </div>
 
                             <?php if ($order["status"] == "completed") : ?>
                                 <div class="col s3">
-                                    <button class="waves-effect btn btn-md yellow black-text" id="disputeOrderBtn">Dispute</button>
+                                    <button class="waves-effect btn btn-danger yellow black-text" id="disputeOrderBtn">Dispute</button>
                                 </div>
 
                                 <div class="col s3">
-                                    <button class="waves-effect btn btn-md green white-text" id="finishOrderBtn">Finish</button>
+                                    <button class="waves-effect btn btn-success green white-text" id="finishOrderBtn">Finish</button>
                                 </div>
                             <?php endif; ?>
                         </div>
@@ -172,7 +191,7 @@
                                     <label class="bmd-label-floating">Select Writer to Assign Order</label>
                                     <div class="form-group">
                                         <select class="form-control" id="selectedWriter">
-                                            <option value="" id="format" name="format" disabled selected>Chose Writer to Assign Order</option>
+                                            <option value="" id="selectedWriter" name="selectedWriter" disabled selected>Chose Writer to Assign Order</option>
                                             <?php foreach ($writers as $writer) : ?>
                                                 <?php if ($writer["status"] != 0) : ?>
                                                     <option value="<?php echo $writer["id"] ?>">Writer <?php echo $writer["id"] ?>: <?php echo $writer["email"] ?></option>
@@ -180,9 +199,8 @@
                                             <?php endforeach; ?>
                                         </select>
 
-                                        <button class="waves-effect btn btn-md blue white-text" id="assignOrderBtn">Assign</button>
+                                        <button class="btn btn-success blue white-text" id="assignOrderBtn">Assign</button>
 
-                                        <hr>
                                     </div>
 
                                 <?php endif; ?>
@@ -195,7 +213,171 @@
         </div>
     </div>
 
-    <!-- <script src="<?php echo base_url('assets/admin/js/plugins/jquery.countdown.js') ?>"></script>
-    <script type="text/javascript">
-        
-    </script> -->
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="editOrderModal" tabindex="-1" role="dialog" aria-labelledby="editOrderModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editOrderModalLabel">
+                        Edit Order <?= $order["id"] ?>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <input id="title" type="text" name="title" class="validate form-control" value="<?= $order["title"] ?>">
+                                    <label class="bmd-label-floating" for="title">Order Title</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input id="pages" type="number" name="pages" class="validate form-control" value="<?= $order["pages"] ?>">
+                                    <label class="bmd-label-floating" for="pages">Order Pages</label>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input id="price" type="number" name="price" class="validate form-control" value="<?= $order["cost"] ?>">
+                                    <label class="bmd-label-floating" for="price">Order Cost</label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label class="bmd-label-floating">Order Spacing</label>
+                                <div class="form-group">
+                                    <select class="form-control" id="spacing">
+                                        <option value="0" id="orderSpacing" name="orderSpacing" disabled selected>
+                                            <?= $order["spacing"] ?>
+                                        </option>
+
+                                        <option value="1">Single (550 Words / Page)</option>
+                                        <option value="2">Double (275 Words / Page)</option>
+                                        <option value="3">Double (300 Words / Page)</option>
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label class="bmd-label-floating">Order Formating</label>
+                                <div class="form-group">
+
+                                    <select class="form-control" id="format">
+                                        <option value="0" id="format" name="format" disabled selected><?= $order["format"] ?></option>
+
+                                        <option value="1">APA</option>
+                                        <option value="2">MLA</option>
+                                        <option value="3">Havard</option>
+                                        <option value="4">Chicago / Turabian</option>
+                                        <option value="5">Other</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label class="bmd-label-floating">Order Sources</label>
+                                <div class="form-group">
+                                    <select class="form-control" id="sources">
+                                        <option value="0" id="orderSources" name="orderSources" disabled selected>
+                                            <?= $order["sources"] ?> Sources
+                                        </option>
+
+                                        <?php for ($i = 1; $i < 20; $i++) : ?>
+                                            <option value="<?= $i; ?>"><?= $i ?> Sources</option>
+                                        <?php endfor; ?>
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label class="bmd-label-floating">Order Level</label>
+                                <div class="form-group">
+
+                                    <select class="form-control" id="level">
+                                        <option value="0" id="orderLevel" name="orderLevel" disabled selected><?= $order["level"] ?></option>
+
+                                        <option value="1">High School</option>
+                                        <option value="2">College</option>
+                                        <option value="3">University</option>
+                                        <option value="3">Masters</option>
+                                        <option value="3">P.hD</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col s12 m6 l6">
+                                <div class="form-group">
+                                    <input id="date_deadline" type="date" name="date_deadline" value="<?= $order["date_deadline"] ?>" class="datepicker validate form-control">
+                                    <label class="bmd-label-floating" for="date_deadline">Order Date</label>
+                                </div>
+                            </div>
+
+                            <div class="col s12 m6 l6">
+                                <div class="form-group">
+                                    <input id="time_date" type="time" name="time_date" value="<?= $order["time_deadline"] ?>" class="timepicker validate form-control">
+                                    <label class="bmd-label-floating" for="time_date">Order Time</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col s12 m6 l6">
+                                <div class="form-group">
+                                    <textarea name="instructions" class="form-control" id="instructions" style="height: 200px !important; overflow-y: scroll;">
+                                        <?= $order["instructions"] ?>
+                                    </textarea>
+                                    <label class="bmd-label-floating" for="orderInstructions">Order Instructions</label>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="btn_update_order">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script language="JavaScript">
+            TargetDate = "<?php echo $order['date_deadline'] ?> <?php echo $order['time_deadline'] ?>";
+            BackColor = "palegreen";
+            ForeColor = "navy";
+            CountActive = true;
+            CountStepper = -1;
+            LeadingZero = true;
+            DisplayFormat = "%%D%% Days, %%H%% Hrs, %%M%% Mins, %%S%% Secs";
+            FinishMessage = `<span class="card-text text-danger">Deadline is Over</span>`;
+        </script>
+        <script type="text/javascript" src="<?php echo base_url('assets/js/countdown.js') ?>">
+        </script>

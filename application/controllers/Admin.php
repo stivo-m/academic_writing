@@ -6,6 +6,7 @@ class Admin extends CI_Controller
 
 	public function index()
 	{
+		//$API_TOKEN = "JW686ECZL0Y0IIL7ZP6B7R4K9VN62KRF";
 		$data['title'] = "Admin | Login";
 		$data['error'] = "Please Login to Continue...";
 
@@ -48,7 +49,7 @@ class Admin extends CI_Controller
 			$data['error'] = "User does not Exist";
 
 
-			$this->load->view('templetes/admin/header', $data);
+			$this->load->view('templetes/admin/header2', $data);
 			$this->load->view('admin/auth/login', $data);
 			$this->load->view('templetes/admin/footer');
 		}
@@ -70,6 +71,7 @@ class Admin extends CI_Controller
 	public function dashboard()
 	{
 		$data['title'] = "Admin | Dashboard";
+		$data["id"] = "";
 		$data['available'] = $this->Admin_Model->get_orders("available");
 		$data['processing'] = $this->Admin_Model->get_orders("processing");
 		$data['revisions'] = $this->Admin_Model->get_orders("revision");
@@ -87,6 +89,7 @@ class Admin extends CI_Controller
 	{
 		if ($id == NULL) {
 			$data['title'] = "Admin | Orders";
+			$data["id"] = "";
 			$data['available'] = $this->Admin_Model->get_orders("available");
 			$data['processing'] = $this->Admin_Model->get_orders("processing");
 			$data['revisions'] = $this->Admin_Model->get_orders("revision");
@@ -100,6 +103,7 @@ class Admin extends CI_Controller
 			$this->load->view('templetes/admin/footer');
 		} else {
 			$data['title'] = "Admin | Order " . $id;
+			$data["id"] = $id;
 			$data['order'] = $this->Admin_Model->get_order($id);
 			$data['writers'] = $this->Admin_Model->get_writers();
 			$data["files"] = $this->Admin_Model->getOrderFiles($id);
@@ -119,12 +123,9 @@ class Admin extends CI_Controller
 
 		$date = $this->input->post("date_deadline");
 		$time = $this->input->post("time_deadline");
-		$date = date('Y-m-d');
-		$time = date(' H:i:s');
 
 		$order_data = array(
 			"title" => $this->input->post("title"),
-			'subject' => $this->input->post("subject"),
 			'sources' => $this->input->post("sources"),
 			'spacing' => $this->input->post("spacing"),
 			'date_deadline' => $date,
@@ -132,7 +133,7 @@ class Admin extends CI_Controller
 			'format' => $this->input->post("format"),
 			'level' => $this->input->post("level"),
 			'pages' => $this->input->post("pages"),
-			'cost' => $this->input->post("price") * $this->input->post("pages"),
+			'cost' => 200 * $this->input->post("pages"),
 			'instructions' => $this->input->post("instructions"),
 			'status' => "available",
 			'admin_id' => $this->session->userdata["admin_data"]["admin_id"]
@@ -141,7 +142,7 @@ class Admin extends CI_Controller
 		$result = $this->Admin_Model->add_order($order_data);
 
 		if ($result) {
-			$msg = "Order Added!";
+			$msg = "Order Added Successfully!";
 			echo json_encode($msg);
 			return true;
 		} else {
@@ -150,6 +151,45 @@ class Admin extends CI_Controller
 			return false;
 		}
 	}
+
+
+	public function update_order()
+	{
+
+		$date = $this->input->post("date_deadline");
+		$time = $this->input->post("time_deadline");
+		// $date = date('Y-m-d');
+		// $time = date(' H:i:s');
+
+		$order_data = array(
+			'id' => $this->input->post("id"),
+			'sources' => $this->input->post("sources"),
+			'spacing' => $this->input->post("spacing"),
+			'date_deadline' => $date,
+			'time_deadline' => $time,
+			'format' => $this->input->post("format"),
+			'cost' => $this->input->post("price"),
+			'instructions' => $this->input->post("instructions"),
+			'admin_id' => $this->session->userdata["admin_data"]["admin_id"]
+		);
+
+		// print_r($order_data);
+		// return;
+
+		$result = $this->Admin_Model->update_order($order_data);
+
+		if ($result) {
+			$msg = "Order Updated!";
+			echo json_encode($msg);
+			return true;
+		} else {
+			$msg = "Order was not Updated";
+			echo json_encode($msg);
+			return false;
+		}
+	}
+
+
 
 
 
@@ -236,6 +276,7 @@ class Admin extends CI_Controller
 	{
 		if ($id == NULL) {
 			$data['title'] = "Admin | Writers";
+			$data["id"] = $id;
 			$data['writers'] = $this->Admin_Model->get_writers();
 
 			$this->load->view('templetes/admin/header', $data);
@@ -244,6 +285,7 @@ class Admin extends CI_Controller
 			$this->load->view('templetes/admin/footer');
 		} else {
 			$data['title'] = "Admin | Writer " . $id;
+			$data["id"] = $id;
 			$data['writer'] = $this->Admin_Model->get_writer($id);
 			$data['writer_orders'] = $this->Admin_Model->get_orders_by($id);
 
@@ -276,7 +318,14 @@ class Admin extends CI_Controller
 		$data['finished'] = $this->Admin_Model->get_orders("finished");
 		$data['disputed'] = $this->Admin_Model->get_orders("disputed");
 		$data['writers'] = $this->Admin_Model->get_writers();
-		$data["invoices"] = $writerId == null ? $this->Admin_Model->getInvoices() : $this->Admin_Model->getInvoices($writerId);
+
+		$data["id"] = $writerId;
+
+		$data["invoices"] = $writerId == null ?
+			$this->Admin_Model->getInvoices() :
+			$this->Admin_Model->getInvoices($writerId);
+
+
 		$data["singleInvoice"] = $writerId == null ? $this->Admin_Model->getInvoice() : $this->Admin_Model->getInvoice($writerId);
 		$data['writer'] = $writerId == null ? 0 : $writerId;
 
@@ -351,10 +400,13 @@ class Admin extends CI_Controller
 		$this->Admin_Model->payInvoice($invoiceId, $invoiceData);
 	}
 
+
+
 	public function settings()
 	{
 		$data['title'] = "Admin | Settings";
 		$data['settings'] = $this->Admin_Model->getSettings();
+		$data["id"] = "";
 
 		$this->load->view('templetes/admin/header', $data);
 		$this->load->view('templetes/admin/nav', $data);

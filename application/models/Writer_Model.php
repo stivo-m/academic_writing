@@ -18,7 +18,8 @@ class Writer_Model extends CI_Model
     }
 
     public function registerWriter($writerData)
-    { }
+    {
+    }
 
     public function getOrders($status, $writer = NULL)
     {
@@ -115,22 +116,52 @@ class Writer_Model extends CI_Model
             "complete_date" => now()
         );
         $result = $this->db->update("orders", $updates);
-        echo $result ? "<p class='green center white-text p-2'>Order Successfully Completed</p>" 
-        : "<p class='red center white-text p-2'>An Error Occured</p>";
+        echo $result ? "<p class='green center white-text p-2'>Order Successfully Completed</p>"
+            : "<p class='red center white-text p-2'>An Error Occured</p>";
     }
 
 
-    public function uploadFiles($upload_info){
+    public function uploadFiles($upload_info)
+    {
         return $this->db->insert("files", $upload_info);
     }
 
-    public function getInvoices($id){
+    public function obtainInvoices($id)
+    {
+
+        $result = null;
+        $this->db->select("writers.id, writers.name, writers.email, invoices.invoice_id, invoices.payment_status, invoices.orders, invoice_details.order_id, invoice_details.invoice_id,  invoice_details.pay_status, orders.pages,  orders.id, orders.cost, orders.status, orders.title, ");
+        $this->db->from('writers');
+        $this->db->join('orders', 'writers.id = orders.writer_id');
+        $this->db->join('invoice_details', 'orders.id = invoice_details.order_id');
+        $this->db->join('invoices', 'invoices.invoice_id = invoice_details.invoice_id');
+        $this->db->where("invoice_details.writer_id", $id);
+        $result = $this->db->get();
+
+        return $result->result_array();
+    }
+
+
+    public function getInvoice($id)
+    {
+        $result = null;
+        $this->db->select("invoices.invoice_id, invoices.payment_status, invoices.writer_id, invoices.orders, writers.id, writers.name");
+        $this->db->from("invoices");
+        $this->db->join('writers', 'invoices.writer_id = writers.id');
+        $result = $this->db->get();
+        return $result->result_array();
+    }
+
+
+    public function getInvoices($id)
+    {
         $this->db->where("writer_id", $id);
         $result = $this->db->get("invoice_list");
         return $result->result_array();
     }
 
-    public function getInvoicedOrders($id){
+    public function getInvoicedOrders($id)
+    {
         $this->db->where("writer_id", $id);
         $this->db->where("status", "finished");
         $this->db->where("invoiced", "1");
@@ -138,7 +169,8 @@ class Writer_Model extends CI_Model
         return $result->result_array();
     }
 
-    public function getOrderFiles($id){
+    public function getOrderFiles($id)
+    {
         $this->db->where("order_id", $id);
         $result = $this->db->get("files");
         return $result->result_array();
@@ -173,5 +205,4 @@ class Writer_Model extends CI_Model
         $result = $this->db->update("orders", $updates);
         echo $result ? "<p class='green center white-text p-2'>Order Successfully Taken</p>" : "<p class='red center white-text p-2'>An Error Occured</p>";
     }
-
 }

@@ -17,7 +17,7 @@
           <p>Dashboard</p>
         </a>
       </li>
-      <li class="nav-item <?php if ($this->uri->uri_string() == "admin/orders") {
+      <li class="nav-item <?php if ($this->uri->uri_string() == "admin/orders" || $this->uri->uri_string() == "admin/orders/" . $id) {
                             echo "active";
                           } ?>">
         <a class="nav-link" href="<?php echo base_url('admin/orders') ?>">
@@ -26,7 +26,7 @@
         </a>
       </li>
 
-      <li class="nav-item <?php if ($this->uri->uri_string() == "admin/writers") {
+      <li class="nav-item <?php if ($this->uri->uri_string() == "admin/writers" || $this->uri->uri_string() == "admin/writers/" . $id) {
                             echo "active";
                           } ?>">
         <a class="nav-link" href="<?php echo base_url('admin/writers') ?>">
@@ -36,7 +36,7 @@
       </li>
 
       <li class="nav-item 
-      <?php if ($this->uri->uri_string() == "admin/finances" || $this->uri->uri_string() == "admin/finances/(:any)") {
+      <?php if ($this->uri->uri_string() == "admin/finances" || $this->uri->uri_string() == "admin/finances/" . $id) {
         echo "active";
       } ?>">
         <a class="nav-link" href="<?php echo base_url('admin/finances') ?>">

@@ -1,183 +1,120 @@
-<?php if(!$this->session->userdata["writer_data"]["writer_login_status"]) : ?>
-    <?php 
-        $url = base_url("writers");
-        redirect($url);
+<?php if (!$this->session->userdata["writer_data"]["writer_login_status"]) : ?>
+    <?php
+    $url = base_url("writers");
+    redirect($url);
     ?>
 <?php endif; ?>
 
-<div class="container row animated fadeIn">
-    <div class="col s12">
-        <div class="card">
-            <div class="card-content">
-                <h5 class="center card-heading">
-                    Financial Overview
-                </h5>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-tabs card-header-primary">
+                    <div class="nav-tabs-navigation">
+                        <div class="nav-tabs-wrapper">
+                            <span class="nav-tabs-title">Invoices:</span>
+                            <ul class="nav nav-tabs" data-tabs="tabs">
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="#profile" data-toggle="tab">
+                                        <i class="material-icons">event_busy</i> Unpaid
+                                        <div class="ripple-container"></div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#messages" data-toggle="tab">
+                                        <i class="material-icons">file_copy</i> Paid
+                                        <div class="ripple-container"></div>
+                                    </a>
+                                </li>
 
-                <ul class="collection">
-                    
-                    <li class="collection-item">
-                        Processing Orders Totals: 
-                        <span class="right">
-                            <?php
-                                $count = 0;
-                                foreach($processing as $order){
-                                    $count += $order['cost'];
-                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="profile">
+                            <?php if (empty($invoices)) : ?>
+                                <p class="card-content">Nothing to show...</p>
+                            <?php endif; ?>
 
-                                echo "Ksh. " . number_format($count);
-                            ?>
-                        </span>
-                    </li>
+                            <?php if (!empty($singleInvoice)) : ?>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Invoice No.
+                                            </th>
 
-                    <li class="collection-item">
-                        Revision Orders Totals: 
-                        <span class="right">
-                            <?php
-                                $count = 0;
-                                foreach($revisions as $order){
-                                    $count += $order['cost'];
-                                }
+                                            <th>
+                                                No. of Orders
+                                            </th>
 
-                                echo "Ksh. " . number_format($count);
-                            ?>
-                        </span>
-                    </li>
+                                            <th>
+                                                Payment Status
+                                            </th>
 
-                    <li class="collection-item">
-                        Completed Orders Totals: 
-                        <span class="right">
-                            <?php
-                                $count = 0;
-                                foreach($completed as $order){
-                                    $count += $order['cost'];
-                                }
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
 
-                                echo "Ksh. " . number_format($count);
-                            ?>
-                        </span>
-                    </li>
+                                    <tbody>
+                                        <?php foreach ($singleInvoice as $invoice) : ?>
+                                            <tr>
+                                                <td>
+                                                    #<?= $invoice["invoice_id"] ?>
+                                                </td>
 
-                    <li class="collection-item">
-                        Finished Orders Totals: 
-                        <span class="right">
-                            <?php
-                                $count = 0;
-                                foreach($finished as $order){
-                                    $count += $order['cost'];
-                                }
+                                                <td>
+                                                    <?= $invoice["orders"] ?> orders
+                                                </td>
 
-                                echo "Ksh. " . number_format($count);
-                            ?>
-                        </span>
-                    </li>
+                                                <td>
+                                                    <?= ucfirst($invoice["payment_status"]) ?>
+                                                </td>
+                                                <td class="td-actions text-right">
 
-                    <li class="collection-item">
-                        Disputed Orders Totals: 
-                        <span class="right">
-                            <?php
-                                $count = 0;
-                                foreach($disputes as $order){
-                                    $count += $order['cost'];
-                                }
+                                                    <a href="<?php echo base_url('writers/finances/' . $invoice["writer_id"]) ?>" type="button" rel="tooltip" title="View Invoice" class="btn btn-primary btn-link btn-sm">
+                                                        <i class="material-icons">remove_red_eye</i>
+                                                    </a>
 
-                                echo "Ksh. " . number_format($count);
-                            ?>
-                        </span>
-                    </li>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            <?php endif; ?>
 
-                </ul>
-            </div>
-        </div>
-    </div>
+                        </div>
+                        <div class="tab-pane" id="messages">
 
-    <div class="col s12">
-        <div class="card">
-            <div class="card-content">
-                <h5 class="card-heading center">Invoices</h5>
+                        </div>
 
-                <table class="responsive-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Created At</th>
-                            <th>Orders</th>
-                            <th>Amount</th>
-                            <th>Pay Status</th>
-                            <th>Pay Date</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <?php foreach($invoices as $invoice) : ?>
-                            <tr>
-                                <td><?php echo $invoice["id"]?></td>
-                                <td><?php echo $invoice["created_at"]?></td>
-                                <td><?php echo $invoice["total_orders"]?></td>
-                                <td><?php echo $invoice["totals"]?></td>
-                                <td>
-                                    <?php if($invoice["pay_status"] == 0) : ?>
-                                        <span class="red-text">Not Paid</span>
-                                    <?php endif; ?>
-
-                                    <?php if($invoice["pay_status"] == 1) : ?>
-                                        <span class="green-text">Paid</span>
-                                    <?php endif; ?>
-                                </td>
-                                <td><?php echo $invoice["pay_date"]?></td>
-                                <td><button class="btn btn-small green waves-effect modal-trigger" href="#viewInvoiceModal" id="btnViewInvoice">View Invoice</button></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<!--Invoice Modal Structure -->
-<div id="viewInvoiceModal" class="modal">
-    <div class="modal-content">
-        <h5>View Invoice</h5>
-        <p class="center"></p>
-        <div class="row">
-            <div class="col s12">
-                <table class="responsive-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Title</th>
-                            <th>Pages</th>
-                            <th>Finish Date</th>
-                            <th>Cost</th>
-                        </tr>
-                    </thead>
 
-                    <tbody>
-                        <?php foreach($invoiced as $order) : ?>
-                            <tr>
-                                <td><?php echo $order["id"]?></td>
-                                <td><?php echo $order["title"]?></td>
-                                <td><?php echo $order["pages"]?> Pages</td>
-                                <td><?php echo $order["complete_date"]?></td>
-                                <td><?php echo "Ksh. " . number_format($order["cost"])?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+<!-- Modal -->
+<div class="modal fade hidden" id="viewInvoiceModal" tabindex="-1" role="dialog" aria-labelledby="viewInvoiceModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
-    </div>
-    <div class="modal-footer">
-      <h5 class="center">
-        <?php
-            $count = 0;
-            foreach($invoiced as $order){
-                $count += $order['cost'];
-            }
-
-            echo "Totals Payable: Ksh. " . number_format($count);
-        ?>
-      </h5>
     </div>
 </div>
